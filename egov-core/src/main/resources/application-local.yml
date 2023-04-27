@@ -1,5 +1,4 @@
 app:
-  url: 'localhost:${server.port}'
   result.log.trace: true
 
 spring:
@@ -7,9 +6,12 @@ spring:
   datasource:
     #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: xit5811807
+    #url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
+    #username: root
+    #password: xit5811807
+    url: ENC(4P53zTRMUgzcSYFGZ2t6Xh6TsL6qyfVn0D247L96ykwMoapbvyj2YLX0BWFqHNT/OAnsB5G1yqnOoDM7+omvtubvS1cWaoW8TcUmvhbXbyiWZLcjsnzyRaa7v9fMITUbtTMUTADo1hFPePRdu1RP9+us3hmqnTUMuYHnDfzNIOF5eHgxuSFDiosS6rjkNt0O)
+    username: ENC(oyoYCJNYFCGQ/1yAt9q8dA==)
+    password: ENC(CjPwOSdFoqpg3t7y/Qi/gxwIEEzw/WHn)
     hikari:
       driver-class-name: ${spring.datasource.driver-class-name}
       jdbc-url: ${spring.datasource.url}
@@ -36,6 +38,3 @@ logging:
 # Spring Security cors 설정 :: CorsConfiguration 설정 값
 cors:
   allowed-origins: https://fonts.gstatic.com,http://localhost:3000,http://localhost,http://211.119.124.107,http://211.119.124.107:3000
-  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-  allowed-headers: Origin,X-Requested-With,Content-Type,Accept,Authorization,X-CSRF-TOKEN
-  max-age: 3600

@@ -53,7 +53,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = {BizRuntimeException.class})
     protected ResponseEntity<? extends IRestApiResponse> handleBizRutimeException(BizRuntimeException e) {
-        log.error("==================== handleBizRutimeException throw BizRuntimeException : {} ====================", e.getClass().getCanonicalName());
+        log.error("==== throw Exception : {} ====", e.getClass().getCanonicalName());
         return RestApiErrorResponse.of(e);
     }
 
@@ -66,7 +66,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {EgovBizException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected ResponseEntity<? extends IRestApiResponse> handleEgovBizException(EgovBizException e) {
-        log.error("==================== handleBizRutimeException throw BizRuntimeException : {} ====================", e.getClass().getCanonicalName());
+        log.error("==== throw Exception : {} ====", e.getClass().getCanonicalName());
         return RestApiErrorResponse.of(String.valueOf(HttpStatus.BAD_REQUEST.value()), e.getMessage());
     }
 
@@ -87,7 +87,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     //@ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("==================== Override handleMethodArgumentNotValid throw MethodArgumentNotValidException ====================");
+        log.error("==== throw Exception : {} ====", ex.getClass().getCanonicalName());
 
         Map<String, String> validErrorMap = new HashMap<>();
         ex.getBindingResult().getFieldErrors()
@@ -141,7 +141,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     //@ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("==================== Override handleHttpMessageNotReadable throw HttpMessageNotReadableException ====================");
+        log.error("==== throw Exception : {} ====", ex.getClass().getCanonicalName());
 
         RestApiErrorResponse errorResponse = RestApiErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
@@ -169,7 +169,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {NoSuchElementException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected ResponseEntity<? extends IRestApiResponse> handleNoSuchElementException() {
-        log.error("==================== handleNoSuchElementException throw NoSuchElementException ====================");
+        log.error("==== throw NoSuchElementException ====");
         return RestApiErrorResponse.of(ErrorCode.SQL_DATA_RESOURCE_INVALID);
     }
 
@@ -181,7 +181,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {IllegalArgumentException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected ResponseEntity<? extends IRestApiResponse> handleIllegalArgumentException(IllegalArgumentException iae) {
-        log.error("==================== handleIllegalArgumentException throw llegalArgumentException ====================");
+        log.error("==== throw Exception : {} ====", iae.getClass().getCanonicalName());
         return RestApiErrorResponse.of(HttpStatus.BAD_REQUEST.toString(), iae.getLocalizedMessage());
     }
 
@@ -193,7 +193,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ConstraintViolationException.class, DataIntegrityViolationException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected ResponseEntity<? extends IRestApiResponse> handleDataException() {
-        log.error("==================== handleDataException throw ConstraintViolationException, DataIntegrityViolationException ====================");
+        log.error("==== throw ConstraintViolationException, DataIntegrityViolationException ====================");
         return RestApiErrorResponse.of(ErrorCode.SQL_DATA_RESOURCE_INVALID);
     }
 
@@ -227,7 +227,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     protected ResponseEntity<? extends IRestApiResponse> handleException(Exception e) {
         String message = Checks.isNotNull(e) ? e.getLocalizedMessage() : StringUtils.EMPTY;
-        log.error("handleException throw Exception : {}", Checks.isEmpty(message) ? StringUtils.EMPTY : e.getClass().getCanonicalName());
+        log.error("==== throw Exception : {}", Checks.isEmpty(message) ? StringUtils.EMPTY : e.getClass().getCanonicalName());
         return RestApiErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.toString(), message);
     }
 }

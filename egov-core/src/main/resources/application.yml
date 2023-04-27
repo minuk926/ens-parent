@@ -14,10 +14,8 @@
 #-----------------------------------------------------------------------
 app:
   name: ens-core
+  url: 'localhost:${server.port}'
   result.log.trace: false
-  token:
-    typ:
-    alg:
 
 Globals:
   # 운영서버 타입(WINDOWS, UNIX)
@@ -83,8 +81,7 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-    # logging.level.org.springframework.web 설정시 false
-    #log-request-details: false
+
   #-----------------------------------------------------------------
 # xit framework 설정
 #-----------------------------------------------------------------
@@ -136,23 +133,16 @@ logging:
   exception-conversion-word: '%wEx'
   level:
     root: error
-    #org.springframework.boot.autoconfigure: error
-    #org.springframework.jdbc.datasource.init: error
-    #org.springframework.beans.factory.support: error
-    #org.springframework.web: TRACE
-    io.swagger.v3.core.converter: info
-    org.springframework: info
-    org.apache.commons: info
-    org.egovframework: info
-    org.egovframe.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager: info
-    org.egovframe.rte.fdl.cmmn.exception.manager: info
-    org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer: info
   pattern:
-    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%18.18thread]){magenta} %clr([%-30.30logger{30}::%-20.20method{20}:%4line]){cyan} %clr(%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){faint}'
-    #console: '%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%18.18thread] [%-30.30logger{30}::%-20.20method{20}:%4line] %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}'
-    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%18.18thread] [%-30.30logger{30}::%-20.20method{20}:%4line] %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}'
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%18.18thread]){magenta} %clr([%-35.35logger{35}::%-25.25method{25}:%4line]){cyan} %clr(%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){faint}'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%18.18thread] [%-35.35logger{35}::%-25.25method{25}:%4line] %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}'
   file:
     path: /data/ens/logs
     name: ${app.name}
 
-#management.endpoints.web.exposure.include: loggers
+# Spring Security cors 설정 :: CorsConfiguration 설정 값
+cors:
+  allowed-origins: https://fonts.gstatic.com,http://localhost:3000,http://localhost,http://211.119.124.107,http://211.119.124.107:3000
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: Origin,X-Requested-With,Content-Type,Accept,Authorization,X-CSRF-TOKEN
+  max-age: 3600

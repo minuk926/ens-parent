@@ -109,7 +109,7 @@
 	-->
 
 	<!-- ************************************************************************* -->
-	<!-- SQL log -->
+	<!-- SQL log : root appender로 로그 전파 - additivity="true" -->
 	<!-- ************************************************************************* -->
 	<!-- DB transaction -->
 	<logger name="org.mybatis.spring.SqlSessionUtils" level="DEBUG" />
@@ -148,29 +148,27 @@
 	<!-- ************************************************************************* -->
 	<!-- SQL log -->
 	<!-- ************************************************************************* -->
-<!--
-	<logger name="io.swagger.v3.core.converter" level="INFO" />
-	<logger name="org.springframework" level="INFO" />
-	<logger name="org.egovframe.rte.fdl.cmmn.exception.manager" level="INFO" />
-	<logger name="org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer" level="INFO" />
-	<logger name="org.egovframework" level="ERROR" />
-	<logger name="org.apache.commons" level="INFO" />
--->
-	<!--
-	<logger name="io.swagger.v3.core.converter" level="INFO" additivity="false"/>
-	<logger name="org.springframework" level="INFO" additivity="false"/>
-	<logger name="org.egovframe.rte.fdl.cmmn.exception.manager" level="INFO" additivity="false"/>
-	<logger name="org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer" level="INFO" additivity="false"/>
-	<logger name="org.egovframework" level="ERROR" additivity="false"/>
-	<logger name="org.apache.commons" level="INFO" additivity="false"/>
-	-->
 
 	<!-- ************************************************************************* -->
-	<!-- application log -->
+	<!-- spring / 3rdparty log : root appender로 로그 전파 - additivity="true" -->
 	<!-- ************************************************************************* -->
-    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" />
-	<!--logger name="kr.xit.core.filter.CustomRequestLoggingFilter" level="DEBUG" /-->
-	<logger name="kr.xit" level="DEBUG" />
+	<logger name="io.swagger.v3.core.converter" level="INFO"/>
+	<logger name="org.springframework" level="INFO"/>
+	<logger name="org.egovframe.rte.fdl.cmmn.exception.manager" level="INFO"/>
+	<logger name="org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer" level="INFO"/>
+	<logger name="org.egovframe" level="ERROR"/>
+	<logger name="org.apache.commons" level="INFO"/>
+	<!-- ************************************************************************* -->
+	<!-- spring / 3rdparty log -->
+	<!-- ************************************************************************* -->
+
+
+	<!-- ************************************************************************* -->
+	<!-- application log : root appender로 로그 전파 - additivity="true" -->
+	<!-- ************************************************************************* -->
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
+	<!--logger name="kr.xit.core.filter.CustomRequestLoggingFilter" level="DEBUG"/-->
+	<logger name="kr.xit" level="DEBUG"/>
 	<!-- ************************************************************************* -->
 	<!-- application log -->
 	<!-- ************************************************************************* -->
@@ -180,7 +178,7 @@
 	<!-- root logging -->
 	<!-- ************************************************************************* -->
 	<root level="DEBUG">
-		<springProfile name="local, dev, prod">
+		<springProfile name="dev, prod">
 			<appender-ref ref="ASYNC_ROLLING"/>
 		</springProfile>
 

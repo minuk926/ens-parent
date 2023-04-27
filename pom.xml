@@ -52,9 +52,6 @@
     </parent>
 
     <build>
-        <defaultGoal>install</defaultGoal>
-        <directory>${basedir}/target</directory>
-        <finalName>ROOT</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>

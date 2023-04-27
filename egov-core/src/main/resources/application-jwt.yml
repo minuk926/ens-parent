@@ -1,6 +1,8 @@
 app:
-  name: ens-core
-  result.log.trace: false
+  jasypt:
+    secretKey: xit5811807!@
+    alg: PBEWithMD5AndDES
+    type: base64
   token:
     typ: JWT
     alg: HS256
@@ -12,7 +14,7 @@ app:
     refreshTokenExpiry: 7
     apiKey: lf2McyT3V5gDu2pNNm4VxmX3C2mezX3s
     secretKey: 8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds
-    //secretKey: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWlucGl4LWNvcmUtamF2YWZyYW1ld29yay1qYXZhLXRva2VuLWtleQ
+    #secretKey: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWlucGl4LWNvcmUtamF2YWZyYW1ld29yay1qYXZhLXRva2VuLWtleQ
     # 토큰 재발급시 토큰(refresh) 전달 방식 : COOKIE | HEADER | DTO
     saveType: HEADER
 
