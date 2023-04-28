@@ -1,0 +1,64 @@
+#-----------------------------------------------------------------------
+#   local 설정
+#-----------------------------------------------------------------------
+
+app:
+  name: ens-core
+  url: 'localhost:${server.port}'
+  # parameter 로그 출력 형식 - CUSTOM : LoggerAspect 사용,  PAYLOAD : CommonsRequestLoggingFilter 사용
+  param.log.type: CUSTOM
+  # param.log.type = CUSTOM인 경우 api 호출 결과 출력 여부
+  result.log.trace: true
+  # SQL 로그 : p6spy
+  sql.logging.enabled: true
+
+spring:
+  datasource:
+    # ================ log4jdbc ===========================
+    #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    #url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
+    # =====================================================
+    # =============== p6spy ===============================
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
+    # =====================================================
+    #username: root
+    #password: xit5811807
+    #url: ENC(n9Ek28bvH1dWF+yO0yTIyfy8D2hjYsJ8u/drN3cWxZdmHWhmnbhtYi8GgL9fKpx0rjWkAysropQMlsONvLb7k23IEydOr8WKZ08GXe/Jll2+rJxUghpUUWIp8OtfX3mhIsxCt1sEb4pyaf7c45P8mt7CsGtSyDr39pjJR4FP6dlpluUle9iP6wDKhntlI32d)
+    username: ENC(tbiP7VWWy//wOTc3w27rdQ==)
+    password: ENC(frGwxDBMaM7msyJIYHWVvePoshIt+LJc)
+    hikari:
+      driver-class-name: ${spring.datasource.driver-class-name}
+      jdbc-url: ${spring.datasource.url}
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      read-only: false
+
+  devtools:
+    livereload:
+      enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+logging:
+  level:
+    root: debug
+  file:
+    # 로그파일 위치
+    path: D:/data/ens/logs
+
+# Spring Security cors 설정 :: CorsConfiguration 설정 값
+cors:
+  allowed-origins: https://fonts.gstatic.com,http://localhost:3000,http://localhost,http://211.119.124.107,http://211.119.124.107:3000
+
+# ==================================================================================================================
+# JPA logging lib setting
+# ==================================================================================================================
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: ${app.sql.logging.enabled}

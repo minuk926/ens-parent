@@ -22,6 +22,20 @@ import kr.xit.core.oauth.jwt.TokenAccessDeniedHandler;
 import kr.xit.core.spring.config.properties.CorsProperties;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * <pre>
+ * description : Spring Security 설정
+ * packageName : kr.xit.core.spring.config
+ * fileName    : SecurityConfig
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

@@ -48,6 +48,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
@@ -74,6 +78,17 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency-->
 
+        <!-- JPA log -->
+        <dependency>
+            <groupId>com.github.gavlyukovskiy</groupId>
+            <artifactId>p6spy-spring-boot-starter</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>3.9.1</version>
+        </dependency>
 
         <!-- 전자정부 프레임웍 호환성 인증을 위한 필수 library -->
         <!-- rte.ptl.mvc, rte.fdl.cmmn(ptl.mvc가 include), rte.psl.dataaccess, rte.fdl.logging -->
@@ -124,10 +139,10 @@
 
 
         <!-- war 배포 시 해당 주석 제거 -->
-        <dependency>
+        <!--dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
-        </dependency>
+        </dependency-->
 
         <!-- spring boot dependency end -->
 
@@ -345,11 +360,13 @@
             <version>1.18.16</version>
             <scope>provided</scope>
         </dependency>
+        <!-- p6spy 사용으로 comment 처리
         <dependency>
             <groupId>org.bgee.log4jdbc-log4j2</groupId>
             <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
             <version>1.16</version>
         </dependency>
+        -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
@@ -388,6 +405,14 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <executable>true</executable>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
                 </configuration>
             </plugin>
         </plugins>

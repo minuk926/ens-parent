@@ -112,7 +112,17 @@ public class AuthApiController {
 				mediaType = "application/json",
 				examples = {
 					@ExampleObject(
-						value = "{\"id\":\"admin\",\"password\":\"1\",\"userSe\":\"USR\"}")
+						name = "admin",
+						description = "admin",
+						value = "{\"id\":\"admin\",\"password\":\"1\",\"userSe\":\"USR\"}"),
+					@ExampleObject(
+						name = "admin1",
+						description = "admin1",
+						value = "{\"id\":\"admin1\",\"password\":\"1\",\"userSe\":\"USR\"}"),
+					@ExampleObject(
+						name = "admin2",
+						description = "admin2",
+						value = "{\"id\":\"admin2\",\"password\":\"1\",\"userSe\":\"USR\"}")
 				}
 			)
 		}

@@ -17,7 +17,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
-//TODO : 재개발
+/**
+ * <pre>
+ * description : 인증 처리 Interceptor
+ *              - annotation 방식
+ *              - @Secured(policy = SecurityPolicy.TOKEN | SESSION | COOKIE)
+ * packageName : kr.xit.core.spring.config.auth
+ * fileName    : AuthentificationInterceptor
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 @Slf4j
 public class AuthentificationInterceptor implements AsyncHandlerInterceptor {//AsyncHandlerInterceptor { //extends HandlerInterceptorAdapter{ // HandlerInterceptor{
 

@@ -1,6 +1,6 @@
 #-----------------------------------------------------------------------
 #
-#   globals.properties : 시스템
+#   egovframework 설정
 #
 #-----------------------------------------------------------------------
 #   1.  key = value 구조입니다.
@@ -12,11 +12,6 @@
 #   7.  주석문 처리는  #사용
 #   8.  value값 뒤에 스페이스가 존재하는 경우 서블릿에서 참조할때는 에러발생할 수 있으므로 trim()하거나 마지막 공백없이 properties 값을 설정할것
 #-----------------------------------------------------------------------
-app:
-  name: ens-core
-  url: 'localhost:${server.port}'
-  result.log.trace: false
-
 Globals:
   # 운영서버 타입(WINDOWS, UNIX)
   OsType: UNIX
@@ -40,7 +35,7 @@ Globals:
 # mysql
   mysql:
     DriverClassName: net.sf.log4jdbc.DriverSpy
-    Url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=ut
+    Url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
     UserName: root
     Password: xit5811807
 
@@ -76,7 +71,9 @@ server:
 spring:
   profiles:
     active: '@springProfilesActive@'
-    include: jwt
+    include:
+    - app
+    - jpa
 
   mvc:
     pathmatch:
@@ -97,7 +94,7 @@ spring:
       transaction-isolation: TRANSACTION_READ_UNCOMMITTED
       data-source-properties:
         rewriteBatchedStatements: true
-        
+
   main:
     allow-bean-definition-overriding: true
     #allow-circular-references: true

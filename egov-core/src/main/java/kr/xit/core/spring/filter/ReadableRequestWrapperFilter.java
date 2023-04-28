@@ -16,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
  * Post parameter log를 보려면 활설화 해야 함
  */
 @Slf4j
-// @WebFilter(urlPatterns = "/*")
-// @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ReadableRequestWrapperFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {

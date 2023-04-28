@@ -10,10 +10,18 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 
 /**
  * <pre>
- * body가 소모되지 않은 경우 강제로 로그 기록
+ * description : body가 소모되지 않은 경우 강제로 로그 기록
+ *               - 400 bad request 등으로 헤더 혹은 파라미터만 읽고 처리가 완료될 경우
+ *               =>  body 가소모되지 않아 CommonsRequestLoggingFilter를 통한 log가 남지 않는다
+ * packageName : kr.xit.core.spring.filter
+ * fileName    : CustomRequestLoggingFilter
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
  *
- * 400 bad request 등으로 헤더 혹은 파라미터만 읽고 처리가 완료될 경우
- * =>  body 가소모되지 않아 CommonsRequestLoggingFilter를 통한 log가 남지 않는다
  * </pre>
  */
 public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {

@@ -20,8 +20,19 @@ import kr.xit.core.support.utils.Checks;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * CustomExceptionHandler 와 함께 에러 처리
- * Filter에서 발생한 오류 처리
+ * <pre>
+ * description : CustomExceptionHandler 와 함께 에러 처리
+ *               - Filter에서 발생한 오류 처리
+ * packageName : kr.xit.core.spring.filter
+ * fileName    : ExceptionHandlerFilter
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
  */
 @Slf4j
 @Component

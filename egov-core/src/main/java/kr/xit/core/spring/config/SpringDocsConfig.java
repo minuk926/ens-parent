@@ -14,6 +14,20 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
+/**
+ * <pre>
+ * description : Springdoc(swagger) 설정
+ * packageName : kr.xit.core.spring.config
+ * fileName    : SpringDocsConfig
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 @Configuration
 public class SpringDocsConfig {
 

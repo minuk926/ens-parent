@@ -13,6 +13,21 @@ import org.springframework.lang.NonNull;
  * Bean 이름 식별시 패키지를 포함하도록 지정
  * /v1/api, /v2/api 형태로 생성 가능하도록
  */
+/**
+ * <pre>
+ * description : Bean 이름 식별시 패키지를 포함하도록 지정
+ *              - /v1/api, /v2/api 형태로 생성 가능
+ * packageName : kr.xit.core.spring.config.support
+ * fileName    : CustomBeanNameGenerator
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 public class CustomBeanNameGenerator implements BeanNameGenerator {
 
     /**

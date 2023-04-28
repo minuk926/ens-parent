@@ -25,7 +25,7 @@ import org.egovframe.rte.psl.dataaccess.EgovAbstractMapper;
 public abstract class EgovComAbstractDAO extends EgovAbstractMapper {
 
 	@Override
-	@Resource(name = "egov.sqlSession")
+	@Resource
 	public void setSqlSessionFactory(SqlSessionFactory sqlSession) {
 		super.setSqlSessionFactory(sqlSession);
 	}
