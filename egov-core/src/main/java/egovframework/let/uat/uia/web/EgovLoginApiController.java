@@ -22,7 +22,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.ResponseCode;
 import egovframework.com.cmm.service.ResultVO;
-import egovframework.com.jwt.config.EgovJwtTokenUtil;
+//import egovframework.com.jwt.config.EgovJwtTokenUtil;
 import egovframework.let.uat.uia.service.EgovLoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -70,8 +70,8 @@ public class EgovLoginApiController {
 	private final EgovPropertyService propertiesService;
 	
 	/** JWT */
-    private final EgovJwtTokenUtil egovJwtTokenUtil;
-	private final JwtTokenProvider jwtTokenProvider;
+   // private final EgovJwtTokenUtil egovJwtTokenUtil;
+//	private final JwtTokenProvider jwtTokenProvider;
 
 	/**
 	 * 일반 로그인을 처리한다
@@ -138,7 +138,7 @@ public class EgovLoginApiController {
 			infoMap.put(Constants.JwtToken.TOKEN_USER_MAIL.getCode(), loginVO.getEmail());
 
 			//String jwtToken = jwtTokenProvider.generateJwtAccessToken(authentication, infoMap);
-			String jwtToken = jwtTokenProvider.generateJwtAccessToken(loginVO.getId(), "ROLE_USER");
+			String jwtToken = null; //jwtTokenProvider.generateJwtAccessToken(loginVO.getId(), "ROLE_USER");
 
 			resultMap.put("resultVO", loginResultVO);
 			resultMap.put("token", jwtToken);

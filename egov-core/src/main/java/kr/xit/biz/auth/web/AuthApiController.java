@@ -21,7 +21,6 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.ResponseCode;
 import egovframework.com.cmm.service.ResultVO;
-import egovframework.com.jwt.config.EgovJwtTokenUtil;
 import egovframework.let.uat.uia.service.EgovLoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,13 +62,7 @@ public class AuthApiController {
 	/** EgovMessageSource */
 
 	private final EgovMessageSource egovMessageSource;
-
-	/** EgovPropertyService */
-
 	private final EgovPropertyService propertiesService;
-	
-	/** JWT */
-    private final EgovJwtTokenUtil egovJwtTokenUtil;
 	private final JwtTokenProvider jwtTokenProvider;
 
 	/**
