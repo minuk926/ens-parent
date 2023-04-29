@@ -1,3 +1,7 @@
+
+## 전자정부 프레임워크 호환성
+[호환성 가이드 문서](./egov_compatibility_guide.md)
+
 ### log 설정 : application-${spring.profiles.active}.yml
 
 ```yml

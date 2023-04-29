@@ -1,7 +1,5 @@
 # 전자정부 프레임워크 호환성 가이드
-[호환성가이드 문서](file:///./document/egov_compatibility_guid.pdf)   
-[호환성가이드 문서](./document/egov_compatibility_guid.pdf)
-[호환성가이드 문서](./README.md)
+[호환성가이드 문서](./document/egov_compatibility_guide.pdf)
 
 ### Index
 [1. 실행환경 변경 금지](#실행환경-변경-금지)   
