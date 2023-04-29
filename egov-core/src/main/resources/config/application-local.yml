@@ -6,7 +6,7 @@ app:
   name: ens-core
   url: 'localhost:${server.port}'
   # parameter 로그 출력 형식 - CUSTOM : LoggerAspect 사용,  PAYLOAD : CommonsRequestLoggingFilter 사용
-  param.log.type: CUSTOM
+  param.log.type: PAYLOAD
   # param.log.type = CUSTOM인 경우 api 호출 결과 출력 여부
   result.log.trace: true
   # SQL 로그 : p6spy
@@ -15,12 +15,12 @@ app:
 spring:
   datasource:
     # ================ log4jdbc ===========================
-    #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    #url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
     # =====================================================
     # =============== p6spy ===============================
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
+    #driver-class-name: org.mariadb.jdbc.Driver
+    #url: jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
     # =====================================================
     #username: root
     #password: xit5811807
@@ -49,7 +49,7 @@ logging:
     root: debug
   file:
     # 로그파일 위치
-    path: D:/data/ens/logs
+    path: /Users/minuk/data/ens/logs
 
 # Spring Security cors 설정 :: CorsConfiguration 설정 값
 cors:

@@ -24,10 +24,13 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -51,7 +54,6 @@ import kr.xit.core.support.mybatis.ObjectTypeHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-// No qualifying bean of type 'javax.persistence.EntityManagerFactory' available 에러 발생
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
@@ -68,6 +70,7 @@ public class MybatisConfig {
     static final String MYBATIS_CONFIG_FILE = "classpath:/egovframework/mapper/config/mapper-config.xml";
     static final String SQL_SESSION = "sqlSession";
 
+    @ConditionalOnMissingBean
     @Bean
     @Lazy
     public DefaultLobHandler lobHandler() {
@@ -92,6 +95,7 @@ public class MybatisConfig {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
+    @Primary
     @Bean
     public PlatformTransactionManager mybatisTransactionManager() {
         DataSourceTransactionManager dstm = new DataSourceTransactionManager(dataSource);

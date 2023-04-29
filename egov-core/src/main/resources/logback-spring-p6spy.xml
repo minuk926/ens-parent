@@ -113,33 +113,6 @@
 	<!-- ************************************************************************* -->
 	<!-- DB transaction -->
 	<logger name="org.mybatis.spring.SqlSessionUtils" level="DEBUG" />
-	<!-- log4jdbc 옵션 설정 -->
-	<logger name="jdbc" level="OFF"/>
-
-	<springProfile name="prod">
-		<!-- 운영 환경에서만 sql문 및 결과 출력하지 않음 -->
-		<!-- SQL문과 소요된 시간 -->
-		<logger name="jdbc.sqltiming" level="OFF"/>
-		<!-- SQL 결과 조회된 데이터를 table 형식으로 출력 -->
-		<logger name="jdbc.resultsettable" level="OFF"/>
-	</springProfile>
-
-	<springProfile name="local, dev">
-		<!-- 로컬, 개발 환경에서는 sql문 및 결과 출력 -->
-		<!-- SQL문과 소요된 시간 -->
-		<logger name="jdbc.sqltiming" level="DEBUG" />
-		<!-- SQL 결과 조회된 데이터를 table 형식으로 출력 -->
-		<logger name="jdbc.resultsettable" level="DEBUG" />
-	</springProfile>
-
-	<!-- SQL문 출력 -->
-	<logger name="jdbc.sqlonly" level="OFF"/>
-	<!-- result를 포함한 모든 JDBC 호출 정보 -->
-	<logger name="jdbc.resultset" level="OFF"/>
-	<!-- DB connection open/close -->
-	<logger name="jdbc.connection" level="OFF"/>
-	<!-- resultset을 제외한 JDBC 호출 정보 -->
-	<logger name="jdbc.audit" level="OFF"/>
 
 	<!-- DB Connection Pool 관련 -->
 	<logger name="com.zaxxer.hikari.pool.PoolBase" level="ERROR" />
@@ -166,7 +139,7 @@
 	<!-- ************************************************************************* -->
 	<!-- application log : root appender로 로그 전파 - additivity="true" -->
 	<!-- ************************************************************************* -->
-	<logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
 	<!--logger name="kr.xit.core.filter.CustomRequestLoggingFilter" level="DEBUG"/-->
 	<logger name="kr.xit" level="DEBUG"/>
 	<!-- ************************************************************************* -->

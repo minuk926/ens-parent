@@ -43,9 +43,9 @@ import lombok.extern.slf4j.Slf4j;
  *
  * </pre>
  */
+@ConditionalOnProperty(value = "app.jpa.enabled", havingValue = "true", matchIfMissing = false)
 @Slf4j
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "app.jpa.enabled", havingValue = "true", matchIfMissing = false)
 @Configuration
 //@EnableJpaAuditing
 @EnableJpaRepositories(
@@ -74,7 +74,7 @@ public class JpaConfig {
         return new JpaProperties();
     }
 
-    @Primary
+    //@Primary
     @Bean(name = ENTITY_MANAGER_FACTORY)
     public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -101,7 +101,7 @@ public class JpaConfig {
         return emf.getObject();
     }
 
-    @Primary
+    //@Primary
     @Bean(name = TRANSACTION_MANAGER)
     public PlatformTransactionManager jpaTransactionManager(@Qualifier(ENTITY_MANAGER_FACTORY) EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();

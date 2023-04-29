@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
-import kr.xit.core.spring.config.support.P6spySqlFormatConfiguration;
+import kr.xit.core.spring.config.support.CustomP6spySqlFormattingStrategy;
 
 /**
  * <pre>
@@ -34,6 +34,6 @@ public class P6spyLoggingConfig {
      */
     @PostConstruct
     public void setLogMessageFormat() {
-        P6SpyOptions.getActiveInstance().setLogMessageFormat(P6spySqlFormatConfiguration.class.getName());
+        P6SpyOptions.getActiveInstance().setLogMessageFormat(CustomP6spySqlFormattingStrategy.class.getName());
     }
 }

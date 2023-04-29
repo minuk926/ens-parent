@@ -3,7 +3,7 @@ package kr.xit.core.spring.util;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.MessageSourceAccessor;
 
-import kr.xit.core.oauth.jwt.JwtTokenProvider;
+import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import kr.xit.core.spring.config.support.ApplicationContextProvider;
 
 /**
@@ -39,10 +39,6 @@ public class SpringUtils {
 		return (MessageSourceAccessor)getBean(MessageSourceAccessor.class);
 	}
 	
-//	public static CacheService getCodeService(){
-//		return (CacheService)getBean(CacheService.class);
-//	}
-
 
 	/**
 	 *

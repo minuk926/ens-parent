@@ -15,10 +15,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import kr.xit.core.oauth.jwt.JwtAuthenticationEntryPoint;
-import kr.xit.core.oauth.jwt.JwtAuthenticationFilter;
-import kr.xit.core.oauth.jwt.JwtTokenProvider;
-import kr.xit.core.oauth.jwt.TokenAccessDeniedHandler;
+import kr.xit.core.spring.config.auth.jwt.JwtAuthenticationEntryPoint;
+import kr.xit.core.spring.config.auth.jwt.JwtAuthenticationFilter;
+import kr.xit.core.spring.config.auth.jwt.TokenAccessDeniedHandler;
+import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import kr.xit.core.spring.config.properties.CorsProperties;
 import lombok.RequiredArgsConstructor;
 

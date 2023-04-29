@@ -1,6 +1,5 @@
 package kr.xit.core.spring.config;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +9,6 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import egovframework.com.cmm.interceptor.AuthenticInterceptor;
-import egovframework.com.cmm.interceptor.CustomAuthenticInterceptor;
 import kr.xit.core.Constants;
 import kr.xit.core.spring.config.auth.AuthentificationInterceptor;
 

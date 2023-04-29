@@ -29,9 +29,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.xit.core.Constants;
 import kr.xit.core.api.RestApiResponse;
 import kr.xit.core.api.IRestApiResponse;
-import kr.xit.core.oauth.jwt.JwtTokenProvider;
+import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-//import kr.xit.core.config.auth.JwtTokenUtil;
 
 /**
  * 일반 로그인을 처리하는 컨트롤러 클래스
