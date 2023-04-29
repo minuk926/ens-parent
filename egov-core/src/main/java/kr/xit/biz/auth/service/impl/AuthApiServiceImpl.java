@@ -1,10 +1,8 @@
-package egovframework.let.uat.uia.service.impl;
+package kr.xit.biz.auth.service.impl;
 
 import egovframework.com.cmm.LoginVO;
-import egovframework.let.uat.uia.mapper.IEgovLoginServiceMapper;
-import egovframework.let.uat.uia.service.EgovLoginService;
-import egovframework.let.utl.fcc.service.EgovNumberUtil;
-import egovframework.let.utl.fcc.service.EgovStringUtil;
+import kr.xit.biz.auth.mapper.IAuthApiMapper;
+import kr.xit.biz.auth.service.AuthApiService;
 import egovframework.let.utl.sim.service.EgovFileScrty;
 
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -13,31 +11,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-/**
- * 일반 로그인을 처리하는 비즈니스 구현 클래스
- * @author 공통서비스 개발팀 박지욱
- * @since 2009.03.06
- * @version 1.0
- * @see
- *
- * <pre>
- * << 개정이력(Modification Information) >>
- *
- *   수정일      수정자          수정내용
- *  -------    --------    ---------------------------
- *  2009.03.06  박지욱          최초 생성
- *  2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
- *
- *  </pre>
- */
-@Service("loginService")
-public class EgovLoginServiceImpl extends EgovAbstractServiceImpl implements EgovLoginService {
+@Service
+public class AuthApiServiceImpl extends EgovAbstractServiceImpl implements AuthApiService {
 
 	// @Resource(name = "loginDAO")
 	// private LoginDAO loginDAO;
 
 	@Resource
-	private IEgovLoginServiceMapper mapper;
+	private IAuthApiMapper mapper;
 
 	/**
 	 * 일반 로그인을 처리한다

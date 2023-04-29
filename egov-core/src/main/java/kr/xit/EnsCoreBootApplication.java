@@ -1,4 +1,4 @@
-package kr.xit.core;
+package kr.xit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 	// 	//@ComponentScan.Filter(type = FilterType.ASPECTJ, pattern = {"com.xit"})
 	// }
 )
-public class EgovBootApplication {
+public class EnsCoreBootApplication {
 	static final List<String> basePackages = new ArrayList<>(
 		Arrays.asList("egovframework", "kr.xit")
 	);
@@ -66,7 +66,7 @@ public class EgovBootApplication {
 		CustomBeanNameGenerator beanNameGenerator = new CustomBeanNameGenerator();
 		beanNameGenerator.addBasePackages(basePackages);
 
-		SpringApplicationBuilder applicationBuilder = new SpringApplicationBuilder(EgovBootApplication.class);
+		SpringApplicationBuilder applicationBuilder = new SpringApplicationBuilder(EnsCoreBootApplication.class);
 		applicationBuilder.beanNameGenerator(beanNameGenerator);
 		applicationBuilder.application().setBannerMode(Banner.Mode.OFF);
 		applicationBuilder.application().setLogStartupInfo(false);

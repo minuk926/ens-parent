@@ -1,4 +1,4 @@
-package egovframework.let.uat.uia.service;
+package kr.xit.biz.auth.service;
 
 import egovframework.com.cmm.LoginVO;
 
@@ -19,7 +19,7 @@ import egovframework.com.cmm.LoginVO;
  *
  *  </pre>
  */
-public interface EgovLoginService {
+public interface AuthApiService {
 
 	/**
 	 * 일반 로그인을 처리한다

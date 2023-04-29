@@ -21,7 +21,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.ResponseCode;
 import egovframework.com.cmm.service.ResultVO;
-import egovframework.let.uat.uia.service.EgovLoginService;
+import kr.xit.biz.auth.service.AuthApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -57,7 +57,7 @@ public class AuthApiController {
 
 	/** EgovLoginService */
 
-	private final EgovLoginService loginService;
+	private final AuthApiService loginService;
 
 	/** EgovMessageSource */
 
