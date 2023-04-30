@@ -38,7 +38,7 @@ import kr.xit.core.spring.annotation.SecurityPolicy;
  * </pre>
  */
 @RestController
-@SessionAttributes(types = ComDefaultVO.class)
+//@SessionAttributes(types = ComDefaultVO.class)
 //@Secured(policy = SecurityPolicy.TOKEN)
 public class EgovMainApiController {
 
@@ -79,7 +79,6 @@ public class EgovMainApiController {
 		Map<String, Object> map = bbsMngService.selectBoardArticles(boardVO, "BBSA02");
 		resultMap.put("notiList", map.get("resultList"));
 
-		boardVO.setBbsId("BBSMSTR_BBBBBBBBBBBB");
 		map = bbsMngService.selectBoardArticles(boardVO, "BBSA02");
 		resultMap.put("galList", map.get("resultList"));
 

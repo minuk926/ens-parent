@@ -153,7 +153,7 @@ public class EgovBBSManageServiceImpl extends EgovAbstractServiceImpl implements
 
 		map.put("resultList", result);
 		map.put("resultCnt", Integer.toString(cnt));
-		throw BizRuntimeException.create("~~~~~~~~~~~~~~~~~~~");
+		throw BizRuntimeException.create("서비스 에러 테스트");
 
 		//return map;
 	}

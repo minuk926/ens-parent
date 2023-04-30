@@ -13,6 +13,6 @@ public class EgovComOthersExcepHndlr implements ExceptionHandler {
     public void occur(Exception e, String packageName) {
     	//log.debug(" EgovServiceExceptionHandler run...............");
     	//LOGGER.error(packageName, e);
-    	log.error("{}: {}", packageName, e.getMessage());
+    	log.error("{} error: {}", packageName, e.getMessage());
     }
 }
