@@ -2,6 +2,8 @@ package kr.xit.core.spring.handler;
 
 import java.util.Map;
 
+import javax.servlet.Filter;
+
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Component;
@@ -9,23 +11,24 @@ import org.springframework.web.context.request.WebRequest;
 
 import kr.xit.core.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
+import kr.xit.core.spring.filter.ReadableRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Catch 되지 않은 에러인 경우 처리 되는 class
- * 개발자가 처리한 예외처리중 오류 및 framework에서 처리되지 않은 오류 발생시
- * 반드시 처리 필요
- * 500 Error 등 발생시
- *
  * <pre>
- * timestamp : String
- * status : int
- * error : String
- * exception : String - Exception class
- * trace
- * message
- * path : uri - call uri
- * </pr>
+ * description :  Catch 되지 않은 에러인 경우 처리 되는 class
+ *                개발자가 처리한 예외처리중 오류 및 framework에서 처리되지 않은 오류 발생시 반드시 처리 필요
+ * packageName : kr.xit.core.spring.handler
+ * fileName    : ReadableRequestWrapperFilter
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see DefaultErrorAttributes
  */
 @Slf4j
 @Component

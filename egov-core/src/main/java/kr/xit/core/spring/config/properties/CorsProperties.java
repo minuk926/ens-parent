@@ -8,6 +8,7 @@ import lombok.Setter;
 /**
  * <pre>
  * description : CORS Properties
+ *               - properties : cors 항목에 정의
  * packageName : kr.xit.core.spring.config.properties
  * fileName    : CorsProperties
  * author      : julim

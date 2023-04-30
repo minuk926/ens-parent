@@ -8,6 +8,7 @@ import lombok.Setter;
 /**
  * <pre>
  * description : Java web token Properties
+ *               - properties : app.token 항목에 정의
  * packageName : kr.xit.core.spring.config.properties
  * fileName    : JwtTokenProperties
  * author      : julim

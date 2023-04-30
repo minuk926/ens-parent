@@ -20,9 +20,19 @@ import kr.xit.core.support.utils.Checks;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JwtFilter에서 저장한 유저정보(토큰)에서 사용자 ID를 GET
+ * <pre>
+ * description : Security Utitlity
+ *               JwtTokenProviderr에서 저장한 유저정보(토큰)에서 사용자 ID를 GET
+ * packageName : kr.xit.core.spring.config.auth.util
+ * fileName    : SecurityUtil
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
  *
- * @see JwtTokenProvider
+ * </pre>
  */
 @Slf4j
 public class SecurityUtil {

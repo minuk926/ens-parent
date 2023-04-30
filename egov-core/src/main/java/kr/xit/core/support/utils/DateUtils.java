@@ -15,10 +15,20 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * <pre>
- * 자바 8부터 java.time 패키지 활용
- * localDate : 날짜 정보만 필요할때
- * localDateTime : 날짜와 시간 모두 필요할때
- * localtime : 시간 정보만 필요할때
+ * description : Date uitility
+ *               자바 8부터 java.time 패키지 활용
+ *               localDate : 날짜 정보만 필요할때
+ *               localDateTime : 날짜와 시간 모두 필요할때
+ *               localtime : 시간 정보만 필요할때
+ * packageName : kr.xit.core.support.utils
+ * fileName    : Checks
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
  * </pre>
  */
 @Slf4j

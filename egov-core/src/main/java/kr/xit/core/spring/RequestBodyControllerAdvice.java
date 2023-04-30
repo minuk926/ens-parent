@@ -13,15 +13,23 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * <pre>
- * RequestBodyAdvice는 요청 body를 커스터마이징
+ * description : RequestBodyAdvice는 요청 body를 커스터마이징
+ *               supports: 해당 RequestBodyAdvice를 적용할지 여부를 결정함
+ *               beforeBodyRead: body를 읽어 객체로 변환되기 전에 호출됨
+ *               afterBodyRead: body를 읽어 객체로 변환된 후에 호출됨
+ *               handleEmptyBody: body가 비어있을때 호출됨
+ * packageName : kr.xit.core.spring
+ * fileName    : equestBodyControllerAdvice
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
  *
- * supports: 해당 RequestBodyAdvice를 적용할지 여부를 결정함
- * beforeBodyRead: body를 읽어 객체로 변환되기 전에 호출됨
- * afterBodyRead: body를 읽어 객체로 변환된 후에 호출됨
- * handleEmptyBody: body가 비어있을때 호출됨
  * </pre>
  */
-// FIXME:: RequestBody cutomizing
+/// FIXME:: RequestBody cutomizing
 @RestControllerAdvice
 @Slf4j
 public class RequestBodyControllerAdvice implements RequestBodyAdvice {

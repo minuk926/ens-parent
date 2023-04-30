@@ -7,10 +7,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
+/**
+ * <pre>
+ * description : Mybatis Object Handler
+ * packageName : kr.xit.core.support.mybatis
+ * fileName    : ObjectTypeHandler
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see BaseTypeHandler
+ */
 public class ObjectTypeHandler extends BaseTypeHandler<Object> {
 	
 	@Override

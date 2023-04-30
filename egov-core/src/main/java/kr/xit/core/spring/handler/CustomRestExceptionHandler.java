@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.egovframe.rte.fdl.cmmn.exception.EgovBizException;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,28 @@ import lombok.extern.slf4j.Slf4j;
  *   path: '/error' # 오류 응답을 처리할 Handler의 경로
  *   whitelabel.enabled: true # 서버 오류 발생시 브라우저에 보여줄 기본 페이지 생성 여부
  *   </pre>
+ */
+/**
+ * <pre>
+ * description : ExceptionHandlerFilter(Filter에서 발생한 에러 처리)와 함께 에러 처리
+ *               ErrorCode 에서 해당 Exception 오류를 정의하여 사용
+ *               - spring boot의 기본 properties
+ *                server.error:
+ *                  include-exception: false  # 응답에 exception의 내용을 포함할지 여부
+ *                  include-stacktrace: never # 오류 응답에 stacktrace 내용을 포함할 지 여부
+ *                  path: '/error'            # 오류 응답을 처리할 Handler의 경로
+ *                  whitelabel.enabled: true  # 서버 오류 발생시 브라우저에 보여줄 기본 페이지 생성 여부
+ * packageName : kr.xit.core.spring.handler
+ * fileName    : CustomRestExceptionHandler
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see ResponseEntityExceptionHandler
  */
 @Slf4j
 @RestControllerAdvice

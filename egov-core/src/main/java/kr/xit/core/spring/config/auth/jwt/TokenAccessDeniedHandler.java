@@ -12,6 +12,20 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * <pre>
+ * description : TokenAccessDeniedHandler
+ * packageName : kr.xit.core.spring.config.auth.jwt
+ * fileName    : TokenAccessDeniedHandler
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 @Component
 @RequiredArgsConstructor
 public class TokenAccessDeniedHandler implements AccessDeniedHandler {

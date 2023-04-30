@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * <pre>
  * description : JPA 설정
+ *               - 조건 : app.jpa.enabled: true
  * packageName : kr.xit.core.spring.config.support
  * fileName    : JpaConfig
  * author      : julim
@@ -42,6 +43,8 @@ import lombok.extern.slf4j.Slf4j;
  * 2023-04-28    julim       최초 생성
  *
  * </pre>
+ * @see DatasourceConfig
+ * @see MybatisConfig
  */
 @ConditionalOnProperty(value = "app.jpa.enabled", havingValue = "true", matchIfMissing = false)
 @Slf4j

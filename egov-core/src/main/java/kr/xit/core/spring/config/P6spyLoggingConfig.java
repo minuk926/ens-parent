@@ -11,7 +11,9 @@ import kr.xit.core.spring.config.support.CustomP6spySqlFormattingStrategy;
 
 /**
  * <pre>
- * description : SQL log 출력(p6spy) - app.sql.logging.enabled = true 인 경우
+ * description : SQL log 출력(p6spy)
+ *               - 조건: app.sql.logging.enabled: true
+ *               - 조건: app.param.log.type: PAYLOAD
  *               - JPA 하이버네이트 SQL 포함
  * packageName : kr.xit.core.spring.config
  * fileName    : P6spyLoggingConfig
@@ -23,6 +25,7 @@ import kr.xit.core.spring.config.support.CustomP6spySqlFormattingStrategy;
  * 2023-04-28    julim       최초 생성
  *
  * </pre>
+ * @see WebMvcConfig#requestLoggingFilter()
  */
 @ConditionalOnProperty(value = "app.sql.logging.enabled", havingValue = "true", matchIfMissing = false)
 @Configuration

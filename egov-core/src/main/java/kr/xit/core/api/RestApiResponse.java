@@ -20,6 +20,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * <pre>
+ * description : Api 응답
+ * packageName : kr.xit.core.api
+ * fileName    : RestApiResponse
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see IRestApiResponse
+ */
 @Schema(name = "RestApiResult", description = "Restful API 결과", implementation = IRestApiResponse.class)
 @Getter
 @Setter

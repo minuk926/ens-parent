@@ -23,6 +23,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
  * 2023-04-28    julim       최초 생성
  *
  * </pre>
+ * @see CommonsRequestLoggingFilter
  */
 public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
     CatchLocation catchLocation = CatchLocation.AFTER;

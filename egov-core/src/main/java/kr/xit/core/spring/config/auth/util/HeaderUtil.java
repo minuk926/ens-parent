@@ -12,6 +12,20 @@ import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import kr.xit.core.spring.util.SpringUtils;
 import kr.xit.core.support.utils.Checks;
 
+/**
+ * <pre>
+ * description : Header token utility
+ * packageName : kr.xit.core.spring.config.auth.util
+ * fileName    : HeaderUtil
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 public class HeaderUtil {
 
     public static String getAccessToken(){

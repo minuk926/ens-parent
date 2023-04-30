@@ -1,5 +1,21 @@
 package kr.xit.core;
 
+import org.springframework.http.HttpStatus;
+
+/**
+ * <pre>
+ * description : 상수 정의
+ * packageName : kr.xit.core.const
+ * fileName    : Constants
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 public class Constants {
     public static final String API_URL_PATTERNS = "/*";
 

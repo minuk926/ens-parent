@@ -24,6 +24,24 @@ import java.util.stream.IntStream;
  * </appender>
  * </pre>
  */
+/**
+ * <pre>
+ * description : logback log에서
+ *               1) SQL 기본로그중  "==>  Preparing: " 제외
+ *               2) 파라메터 출력 로그 "==> Parameters: " 제외
+ *               3) Hibernate SQL 로그 제외 : org.hibernate.SQL org.hibernate.type.descriptor.sql
+ * packageName : kr.xit.core.support.logback
+ * fileName    : ExcloudLogFilter
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see ch.qos.logback.core.filter.Filter
+ */
 /*
 public class LogbackMaskingPatternLayout extends PatternLayout {
 

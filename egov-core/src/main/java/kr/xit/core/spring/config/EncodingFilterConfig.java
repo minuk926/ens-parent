@@ -10,7 +10,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 /**
  * <pre>
  * description : 기본 UTF-8인데, encoding이 EUC-KR로 들어오는 경우가 있는 경우(외부에서 들어오는 - 결재 등 -) 사용
- *               - 사용시 properties에 spring.http.encoding.force = false 추가
+ *               - 조건 : spring.http.encoding.force: false
  * packageName : kr.xit.core.spring.config
  * fileName    : EncodingFilterConfig
  * author      : julim

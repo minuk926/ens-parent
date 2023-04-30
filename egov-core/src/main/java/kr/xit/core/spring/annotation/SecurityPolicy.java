@@ -1,5 +1,20 @@
 package kr.xit.core.spring.annotation;
 
+/**
+ * <pre>
+ * description : 인증 정책 청의 enum
+ * packageName : kr.xit.core.spring.annotation
+ * fileName    : SecurityPolicy
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see Secured
+ */
 public enum SecurityPolicy {
 	/**
 	 * 리소스의 아이피, 권한 등 기본 검증 처리

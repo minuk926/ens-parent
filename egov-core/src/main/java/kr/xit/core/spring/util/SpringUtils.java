@@ -2,16 +2,26 @@ package kr.xit.core.spring.util;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import kr.xit.core.spring.config.support.ApplicationContextProvider;
 
 /**
- * Get Bean Object
- * Filter / Interceptor 등에서 Bean 사용시 필요
- * (Bean으로 등록되는 클래스 내에서만 @Autowired / @Resource 등이 동작)
+ * <pre>
+ * description : Get Bean Object
+ *               Filter / Interceptor 등에서 Bean 사용시 필요
+ *               (Bean으로 등록되는 클래스 내에서만 @Autowired / @Resource 등이 동작)
+ * packageName : kr.xit.core.spring.util
+ * fileName    : SpringUtils
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
  *
- * @see ApplicationContextProvider
+ * </pre>
  */
 public class SpringUtils {
 

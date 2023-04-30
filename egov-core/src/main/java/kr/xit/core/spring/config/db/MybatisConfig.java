@@ -54,6 +54,22 @@ import kr.xit.core.support.mybatis.ObjectTypeHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * <pre>
+ * description : Mybatis 설정
+ * packageName : kr.xit.core.spring.config.support
+ * fileName    : MybatisConfig
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see DatasourceConfig
+ * @see JpaConfig
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Configuration

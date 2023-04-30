@@ -24,12 +24,24 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.http.MediaType;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * POST request parameter logging
+ * <pre>
+ * description : POST request parameter logging
+ * packageName : kr.xit.core.spring.filter
+ * fileName    : ReadableRequestWrapper
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
  *
+ * </pre>
+ * @see HttpServletRequestWrapper
  */
 @Slf4j
 public class ReadableRequestWrapper extends HttpServletRequestWrapper {

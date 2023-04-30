@@ -30,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
  * 2023-04-28    julim       최초 생성
  *
  * </pre>
+ * @see JpaConfig
+ * @see MybatisConfig
  */
 @Slf4j
 @Configuration

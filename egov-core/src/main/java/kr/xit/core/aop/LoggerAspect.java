@@ -16,9 +16,22 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 
-
+/**
+ * <pre>
+ * description : logging aspect : app.param.log.type: CUSTOM 인 경우 사용
+ *               app.param.log.type: CUSTOM | PAYLOAD
+ * packageName : kr.xit.core.aop
+ * fileName    : LoggerAspect
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ */
 @ConditionalOnProperty(value = "app.param.log.type", havingValue = "CUSTOM", matchIfMissing = false)
-//@ConditionalOnMissingBean
 @Component
 @Aspect
 @Slf4j

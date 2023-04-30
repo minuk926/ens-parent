@@ -16,12 +16,25 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.BaseTypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.core.io.Resource;
 
 /**
- * mybatis mapper 자동 감지 후 자동으로 서버 재시작이 필요 없이 반영
+ * <pre>
+ * description :  mybatis mapper 자동 감지 후 자동으로 서버 재시작이 필요 없이 반영
+ * packageName : kr.xit.core.support.mybatis
+ * fileName    : RefreshableSqlSessionFactoryBean
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see SqlSessionFactoryBean
  */
 public class RefreshableSqlSessionFactoryBean extends SqlSessionFactoryBean implements DisposableBean {
     private static final Log log = LogFactory.getLog(RefreshableSqlSessionFactoryBean.class);

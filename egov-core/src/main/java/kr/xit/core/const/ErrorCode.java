@@ -1,5 +1,6 @@
 package kr.xit.core;
 
+import org.egovframe.rte.fdl.cmmn.exception.BaseRuntimeException;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -7,6 +8,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * <pre>
+ * description : HttpStatus 기준 에러 코드 정의
+ * packageName : kr.xit.core.const
+ * fileName    : ErrorCode
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ * @see HttpStatus
+ */
 @Getter
 @RequiredArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
