@@ -11,8 +11,8 @@
     <modules>
         <module>egov-core</module>
         <module>ens-api</module>
-<!--        <module>ens-client</module>-->
-<!--        <module>ens-front</module>-->
+        <module>ens-front</module>
+        <!--        <module>ens-client</module>-->
     </modules>
 
     <properties>
