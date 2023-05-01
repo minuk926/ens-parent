@@ -11,16 +11,19 @@
 
     <groupId>kr.xit</groupId>
     <artifactId>ens-api</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>ens-api</name>
+    <description>ens-api</description>
 
-    <properties>
+    <!--properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.maven.artifact.version>5.3.20</spring.maven.artifact.version>
         <org.egovframe.rte.version>4.1.0</org.egovframe.rte.version>
         <logback.version>1.2.11</logback.version>
-    </properties>
+    </properties-->
 
     <!--repositories>
         <repository>
