@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.spring.annotation.SecurityPolicy;
 import lombok.Getter;
 import lombok.Setter;

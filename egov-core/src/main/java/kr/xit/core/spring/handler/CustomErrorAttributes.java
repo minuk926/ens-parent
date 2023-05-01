@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.spring.filter.ReadableRequestWrapper;
 import lombok.extern.slf4j.Slf4j;

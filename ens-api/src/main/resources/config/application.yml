@@ -1,0 +1,145 @@
+#-----------------------------------------------------------------------
+#
+#   egovframework 설정
+#
+#-----------------------------------------------------------------------
+#   1.  key = value 구조입니다.
+#   2.  key값은 공백문자를 포함불가, value값은 공백문자를 가능
+#   3.  key값으로 한글을 사용불가,   value값은 한글사용이 가능
+#   4.  줄을 바꿀 필요가 있으면 '\'를 라인의 끝에 추가(만약  '\'문자를 사용해야 하는 경우는 '\\'를 사용)
+#   5.  Windows에서의 디렉토리 표시 : '\\' or '/'  ('\' 사용하면 안됨)
+#   6.  Unix에서의 디렉토리 표시 : '/'
+#   7.  주석문 처리는  #사용
+#   8.  value값 뒤에 스페이스가 존재하는 경우 서블릿에서 참조할때는 에러발생할 수 있으므로 trim()하거나 마지막 공백없이 properties 값을 설정할것
+#-----------------------------------------------------------------------
+Globals:
+  # 운영서버 타입(WINDOWS, UNIX)
+  OsType: UNIX
+
+  # G4C 연결용 IP (localhost)
+  LocalIp: 127.0.0.1
+
+  # DB서버 타입(hsql,mysql,oracle,altibase,tibero) - datasource 및 sqlMap 파일 지정에 사용됨
+  DbType: mysql
+
+  #-----------------------------------------------------------------------
+  # DB 접근 정보
+  #-----------------------------------------------------------------------
+  #hsql - local hssql 사용시에 적용 (내장 hsql은 정보 필요 없음)
+  hsql:
+    DriverClassName: net.sf.log4jdbc.DriverSpy
+    Url: jdbc:log4jdbc:hsqldb:hsql://127.0.0.1/sampledb
+    UserName: sa
+    Password:
+
+# mysql
+  mysql:
+    DriverClassName: net.sf.log4jdbc.DriverSpy
+    Url: jdbc:log4jdbc:mariadb://211.119.124.122:3306/xplatform?useUnicode=true&characterEncoding=utf-8
+    UserName: root
+    Password: xit5811807
+
+# MainPage Setting
+  MainPage: /cmm/main/mainPage.do
+
+  # 파일 확장자 화이트리스트(허용목록) : 파일 확장자를 (.)과 함께 연이어서 사용하며 (.)로 시작한다.
+  fileUpload:
+    Extensions: .gif.jpg.jpeg.png.xls.xlsx
+    '[Images.Extensions]': .gif.jpg.jpeg.png
+
+  # Access-Control-Allow-Origin
+  Allow:
+    Origin: http://localhost:3000
+
+  #암호화서비스 알고리즘 키
+  #주의 : 반드시 기본값 "egovframe"을 다른것으로 변경하여 사용하시기 바랍니다.
+  '[crypto.algoritm]': egovframe
+
+#server.servlet.context-path=/sht_boot_web
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /
+    session.timeout: 3600 #sec
+    encoding:
+      enabled: true
+      charset: utf-8
+      force: true
+
+spring:
+  profiles:
+    active: '@springProfilesActive@'
+    include:
+    - app
+    - jpa
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+#-----------------------------------------------------------------
+# xit framework 설정
+#-----------------------------------------------------------------
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: xit-hikari-pool
+      auto-commit: false
+      # 인프라의 적용된 connection time limit보다 작아야함
+      max-lifetime: 1800000
+      maximum-pool-size: 30
+      minimum-idle: 5
+      transaction-isolation: TRANSACTION_READ_UNCOMMITTED
+      data-source-properties:
+        rewriteBatchedStatements: true
+
+  main:
+    allow-bean-definition-overriding: true
+    #allow-circular-references: true
+
+  devtools:
+    livereload:
+      enabled: false
+
+springdoc:
+  api-docs:
+    enabled: false
+    path: /api-docs
+  swagger-ui:
+    enabled: false # default true
+    path: /swagger-ui.html
+    csrf:
+      enabled: false
+  version: 'v1'   # API 문서 버전
+  default-consumes-media-type: application/json # default consume media type
+  default-produces-media-type: application/json # default produce media type
+  model-and-view-allowed: true                  # ModelAndView 허용 - excel download시 필요
+
+#-----------------------------------------------------------------
+#  logback-spring.xml 로 설정시 스프링의 환경변수를 로그백 시스템 환경변수로 사용
+#  logging.file.name / path => LOG_FILE,  LOG_PATH
+#  logging.charset.console / file => CONSOLE_LOG_CHARSET, FILE_LOG_CHARSET
+#  logging.pattern.console / file => CONSOLE_LOG_PATTERN, FILE_LOG_PATTERN
+#-----------------------------------------------------------------
+logging:
+  charset:
+    console: UTF-8
+    file: UTF-8
+  exception-conversion-word: '%wEx'
+  level:
+    root: error
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%18.18thread]){magenta} %clr([%-35.35logger{35}::%-25.25method{25}:%4line]){cyan} %clr(%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){faint}'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%18.18thread] [%-35.35logger{35}::%-25.25method{25}:%4line] %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}'
+  file:
+    path: /data/ens/logs
+    name: ${app.name}
+
+# Spring Security cors 설정 :: CorsConfiguration 설정 값
+cors:
+  allowed-origins: https://fonts.gstatic.com,http://localhost:8080,http://localhost,http://211.119.124.107,http://211.119.124.107:3000
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: Origin,X-Requested-With,Content-Type,Accept,Authorization,X-CSRF-TOKEN
+  max-age: 3600

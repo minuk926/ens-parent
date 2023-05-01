@@ -21,7 +21,8 @@ app:
     #secretKey: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWlucGl4LWNvcmUtamF2YWZyYW1ld29yay1qYXZhLXRva2VuLWtleQ
     # 토큰 재발급시 토큰(refresh) 전달 방식 : COOKIE | HEADER | DTO
     saveType: HEADER
-
+  mapper:
+    resources: 'classpath:/egovframework/mapper/**/*-${Globals.DbType}-mapper.xml'
 
 # 사용자 ID 정보를 어디에 저장할 것인지 설정
 # JWT 토큰을 사용하고 SessionCreationPolicy.STATELESS인 경우는 SecurityContext 사용불가

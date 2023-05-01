@@ -13,8 +13,8 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import kr.xit.core.Constants;
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.Constants;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.support.utils.Checks;
 import lombok.extern.slf4j.Slf4j;

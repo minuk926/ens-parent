@@ -5,11 +5,12 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.Environment;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import kr.xit.core.Constants;
+import kr.xit.core.consts.Constants;
 import kr.xit.core.spring.config.auth.AuthentificationInterceptor;
 
 /**
@@ -68,9 +69,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     public void addInterceptors(InterceptorRegistry registry) {
     	registry.addInterceptor(new AuthentificationInterceptor())
-    		.addPathPatterns("/**/*.do")
+    		.addPathPatterns("/**/*")
     		.excludePathPatterns(
-    			"/api/v1/auth/*.do"
+    			"/api/v1/auth/*"
     		);
     }
 }

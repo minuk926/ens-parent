@@ -1,7 +1,9 @@
 package kr.xit.core.spring.util;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
@@ -22,6 +24,7 @@ import kr.xit.core.spring.config.support.ApplicationContextProvider;
  * 2023-04-28    julim       최초 생성
  *
  * </pre>
+ * @see ApplicationContextProvider
  */
 public class SpringUtils {
 
@@ -56,5 +59,17 @@ public class SpringUtils {
 	 */
 	public static JwtTokenProvider getJwtTokenProvider(){
 		return (JwtTokenProvider)getBean(JwtTokenProvider.class);
+	}
+
+	/**
+	 *
+	 * @return PropertiesConfiguration
+	 */
+	public static PropertiesConfiguration getPropertiesConfiguration(){
+		return (PropertiesConfiguration)getBean(PropertiesConfiguration.class);
+	}
+
+	public static Environment getEnvironment(){
+		return (Environment)getBean(Environment.class);
 	}
 }

@@ -1,7 +1,7 @@
 package kr.xit.core.spring.config.auth;
 
-import kr.xit.core.Constants;
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.Constants;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.spring.annotation.Secured;
 import kr.xit.core.spring.annotation.SecurityPolicy;

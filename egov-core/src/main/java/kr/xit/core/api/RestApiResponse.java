@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.google.gson.GsonBuilder;
 
-import egovframework.com.cmm.ResponseCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.xit.core.support.utils.Checks;
 import kr.xit.core.support.utils.ConvertHelper;

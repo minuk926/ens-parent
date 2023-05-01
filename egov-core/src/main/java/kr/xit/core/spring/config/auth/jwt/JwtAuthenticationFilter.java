@@ -12,9 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import egovframework.com.cmm.ResponseCode;
-import kr.xit.core.Constants;
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.Constants;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.support.utils.Checks;
 import lombok.RequiredArgsConstructor;
@@ -68,8 +67,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             } catch (Exception e){
                 //e.printStackTrace();
-                req.setAttribute("code", String.valueOf(ResponseCode.AUTH_UNAUTHORIZED.getCode()));
-                req.setAttribute("message", ResponseCode.AUTH_UNAUTHORIZED.getMessage());
+                req.setAttribute("code", String.valueOf(String.valueOf(ErrorCode.UN_AUTHORIZED_USER.getHttpStatus().value()))); //ResponseCode.AUTH_UNAUTHORIZED.getCode()));
+                req.setAttribute("message", ErrorCode.UN_AUTHORIZED_USER.getMessage()); //ResponseCode.AUTH_UNAUTHORIZED.getMessage());
             }
 
         }

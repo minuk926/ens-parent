@@ -17,6 +17,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 /**
  * <pre>
  * description : Springdoc(swagger) 설정
+ *               설정내용이 상이한 경우 동일한 파일로 재정의 하거나 상속받아 사용
  * packageName : kr.xit.core.spring.config
  * fileName    : SpringDocsConfig
  * author      : julim
@@ -66,48 +67,5 @@ public class SpringDocsConfig {
             .security(Arrays.asList(securityRequirement))
             .info(info) ;
            // .servers(servers);
-    }
-
-    @Bean
-    public GroupedOpenApi egovFramework1() {
-        return GroupedOpenApi.builder()
-            .group("1-1. egov-framework Common")
-            .pathsToMatch(
-                "/cmm/fms/**",
-                "/cmm/main/**",
-                "/uat/**"
-            )
-            .build();
-    }
-
-    @Bean
-    public GroupedOpenApi egovFramework2() {
-        return GroupedOpenApi.builder()
-            .group("1-2. egov-framework Etc")
-            .pathsToMatch(
-                "/cop/**",
-                "/sym/**"
-            )
-            .build();
-    }
-
-    @Bean
-    public GroupedOpenApi authentification() {
-        return GroupedOpenApi.builder()
-            .group("1-0. Authentification Api")
-            .pathsToMatch(
-                "/api/v1/auth/**"
-            )
-            .build();
-    }
-
-    @Bean
-    public GroupedOpenApi xitEms() {
-        return GroupedOpenApi.builder()
-            .group("2. 전자고지")
-            .pathsToMatch(
-                "/api/v1/**"
-            )
-            .build();
     }
 }

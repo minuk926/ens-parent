@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.api.IRestApiResponse;
 import kr.xit.core.api.RestApiErrorResponse;
 import kr.xit.core.exception.BizRuntimeException;

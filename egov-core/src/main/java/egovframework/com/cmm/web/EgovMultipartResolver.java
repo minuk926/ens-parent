@@ -33,8 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import egovframework.com.cmm.service.EgovProperties;
-import egovframework.let.utl.fcc.service.EgovFileUploadUtil;
+import egovframework.com.cmm.util.EgovFileUploadUtil;
+import kr.xit.core.spring.util.SpringUtils;
 
 /**
  * 실행환경의 파일업로드 처리를 위한 기능 클래스
@@ -81,7 +81,7 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 		// 스프링 3.0변경으로 수정한 부분
 		MultiValueMap<String, MultipartFile> multipartFiles = new LinkedMultiValueMap<String, MultipartFile>();
 		Map<String, String[]> multipartParameters = new HashMap<String, String[]>();
-		String whiteListFileUploadExtensions = EgovProperties.getProperty("Globals.fileUpload.Extensions");
+		String whiteListFileUploadExtensions = SpringUtils.getPropertiesConfiguration().getString("Globals.fileUpload.Extensions");
 		Map<String, String> mpParamContentTypes = new HashMap<String, String>();
 
 		// Extract multipart files and multipart parameters.

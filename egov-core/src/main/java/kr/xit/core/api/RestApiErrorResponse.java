@@ -11,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.support.utils.Checks;
 import kr.xit.core.support.utils.ConvertHelper;

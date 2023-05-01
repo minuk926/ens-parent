@@ -10,8 +10,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import egovframework.com.cmm.ResponseCode;
 import kr.xit.core.api.RestApiResponse;
+import kr.xit.core.consts.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -43,8 +43,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 
         RestApiResponse apiResult = RestApiResponse.result();
         apiResult.setSuccess(false);
-        apiResult.setCode(errCode != null? errCode.toString() : String.valueOf(ResponseCode.AUTH_UNAUTHORIZED.getCode()));
-        apiResult.setMessage(message != null? message.toString() : ResponseCode.AUTH_UNAUTHORIZED.getMessage());
+        apiResult.setCode(errCode != null? errCode.toString() : String.valueOf(ErrorCode.UN_AUTHORIZED_USER.getHttpStatus().value()));
+        apiResult.setMessage(message != null? message.toString() : ErrorCode.UN_AUTHORIZED_USER.getMessage());
 
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

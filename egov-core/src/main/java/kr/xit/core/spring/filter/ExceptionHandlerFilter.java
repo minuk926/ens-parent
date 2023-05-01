@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.api.RestApiErrorResponse;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.support.utils.Checks;

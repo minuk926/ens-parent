@@ -16,7 +16,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -29,9 +28,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+//FIXME :: 재설정이 필요한 경우 해당 프로젝트에 동일한 파일로 재정의 하여 사용
 /**
  * <pre>
- * description : JPA 설정
+ * description : JPA 설정 - FIXME :: 재설정이 필요한 경우 동일한 파일로 재정의 하여 사용
  *               - 조건 : app.jpa.enabled: true
  * packageName : kr.xit.core.spring.config.support
  * fileName    : JpaConfig
@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-//@EnableJpaAuditing
+@EnableJpaAuditing
 @EnableJpaRepositories(
     basePackages = JpaConfig.ENTITY_PACKAGES,
     entityManagerFactoryRef = JpaConfig.ENTITY_MANAGER_FACTORY,

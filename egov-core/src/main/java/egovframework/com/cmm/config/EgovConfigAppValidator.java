@@ -63,10 +63,11 @@ public class EgovConfigAppValidator {
 				.getResource("classpath:/egovframework/validator/validator-rules-let.xml")
 		};
 
+		// TODO :: defined rules file location
 		Resource[] validationFormSetLocations = new Resource[] {};
 		try {
 			validationFormSetLocations = pathMatchingResourcePatternResolver
-				.getResources("classpath:/egovframework/validator/let/**/*.xml");
+				.getResources("classpath:/egovframework/validator/biz/**/*.xml");
 		} catch (IOException e) {
 			// TODO Exception 처리 필요
 		}

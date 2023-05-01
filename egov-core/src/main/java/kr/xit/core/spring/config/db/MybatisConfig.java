@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -48,15 +49,18 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import kr.xit.core.consts.Constants;
 import kr.xit.core.support.mybatis.CamelCaseLinkedMap;
 import kr.xit.core.support.mybatis.CamelCaseMap;
 import kr.xit.core.support.mybatis.ObjectTypeHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+//FIXME :: 재설정이 필요한 경우 해당프로젝트에 동일한 파일로 재정의 하여 사용
 /**
  * <pre>
  * description : Mybatis 설정
+ *               FIXME :: 재설정이 필요한 경우 동일한 파일로 재정의 하여 사용
  * packageName : kr.xit.core.spring.config.support
  * fileName    : MybatisConfig
  * author      : julim
@@ -75,14 +79,15 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(
-        basePackages = {"egovframework.**.impl", "egovframework.**.mapper", "kr.xit.**.mapper"},
+        basePackages = {"egovframework.**.mapper", "kr.xit.**.mapper"},
         sqlSessionFactoryRef = MybatisConfig.SQL_SESSION
 )
 public class MybatisConfig {
-    @Value("${Globals.DbType}")
-    private String dbType;
-
     private final DataSource dataSource;
+
+    @Value("${app.mapper.resources}")
+    private String MAPPER_RESOURCES;
+
     static final String MYBATIS_CONFIG_FILE = "classpath:/egovframework/mapper/config/mapper-config.xml";
     static final String SQL_SESSION = "sqlSession";
 
@@ -96,13 +101,13 @@ public class MybatisConfig {
     @Bean(name = SQL_SESSION)
     public SqlSessionFactory sqlSession() throws Exception {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         //sessionFactory.setConfiguration(mybatisConfiguration());
         sessionFactory.setConfigLocation(resolver.getResource(MYBATIS_CONFIG_FILE));
         //sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(MAPPER_LOCATION));
-        sessionFactory.setMapperLocations(resolver.getResources("classpath:/egovframework/mapper/**/*_" + dbType + ".xml"));
+        //sessionFactory.setMapperLocations(resolver.getResources("classpath:/egovframework/mapper/**/*_" + dbType + ".xml"));
+        sessionFactory.setMapperLocations(resolver.getResources(MAPPER_RESOURCES));
         return sessionFactory.getObject();
     }
 

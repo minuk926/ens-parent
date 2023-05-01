@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import kr.xit.core.Constants;
-import kr.xit.core.ErrorCode;
+import kr.xit.core.consts.Constants;
+import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import kr.xit.core.spring.util.SpringUtils;
