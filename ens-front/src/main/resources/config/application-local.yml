@@ -1,0 +1,28 @@
+#-----------------------------------------------------------------------
+#   local 설정
+#-----------------------------------------------------------------------
+spring:
+  devtools:
+    livereload:
+      enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+logging:
+  level:
+    root: debug
+  file:
+    # 로그파일 위치
+    path: /Users/minuk/data/ens/logs
+
+# ==================================================================================================================
+# JPA logging lib setting
+# ==================================================================================================================
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: ${app.sql.logging.enabled}

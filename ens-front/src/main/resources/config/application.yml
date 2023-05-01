@@ -1,0 +1,42 @@
+app:
+  name: ens-front
+  url: 'localhost:${server.port}'
+  # parameter 로그 출력 형식 - CUSTOM : LoggerAspect 사용,  PAYLOAD : CommonsRequestLoggingFilter 사용
+  param.log.type: PAYLOAD
+  # param.log.type = CUSTOM인 경우 api 호출 결과 출력 여부
+  result.log.trace: true
+  # SQL 로그 : p6spy
+  sql.logging.enabled: true
+
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /
+    session.timeout: 3600 #sec
+    encoding:
+      enabled: true
+      charset: utf-8
+      force: true
+
+#-----------------------------------------------------------------
+#  logback-spring.xml ? ??? ???? ????? ??? ??? ????? ??
+#  logging.file.name / path => LOG_FILE,  LOG_PATH
+#  logging.charset.console / file => CONSOLE_LOG_CHARSET, FILE_LOG_CHARSET
+#  logging.pattern.console / file => CONSOLE_LOG_PATTERN, FILE_LOG_PATTERN
+#-----------------------------------------------------------------
+logging:
+  charset:
+    console: UTF-8
+    file: UTF-8
+  exception-conversion-word: '%wEx'
+  level:
+    root: error
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%18.18thread]){magenta} %clr([%-35.35logger{35}::%-25.25method{25}:%4line]){cyan} %clr(%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){faint}'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%18.18thread] [%-35.35logger{35}::%-25.25method{25}:%4line] %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}'
+  file:
+    path: /Users/minuk/data/ens/logs
+    name: ${app.name}
+
