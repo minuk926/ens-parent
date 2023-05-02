@@ -4,7 +4,9 @@
 
 app:
   name: ens-api
-  url: 'localhost:${server.port}'
+  # springdoc url 정보
+  desc: 전자고지 Rest API
+  url: 'http://localhost:${server.port}${server.servlet.context-path:}'
   # parameter 로그 출력 형식 - CUSTOM : LoggerAspect 사용,  PAYLOAD : CommonsRequestLoggingFilter 사용
   param.log.type: PAYLOAD
   # param.log.type = CUSTOM인 경우 api 호출 결과 출력 여부

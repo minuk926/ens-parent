@@ -53,7 +53,7 @@ server:
   tomcat:
     uri-encoding: UTF-8
   servlet:
-    context-path: /
+    context-path:
     session.timeout: 3600 #sec
     encoding:
       enabled: true

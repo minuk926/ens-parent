@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * </pre>
  */
 @Tag(name = "SampleController", description = "예제")
-@Controller
+@RestController
 @RequestMapping(value = "/ens/biz/sample")
 public class SampleController {
 

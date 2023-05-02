@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
-public class ApiSpringDocsConfig {
+public class SpringDocsFrontConfig {
 
     @Bean
     public GroupedOpenApi authentification() {
@@ -37,8 +37,7 @@ public class ApiSpringDocsConfig {
         return GroupedOpenApi.builder()
             .group("9. Sample Api")
             .pathsToMatch(
-                "/api/v1/sample/**"
-                //"/cmm/main/**",
+                "/ens/biz/sample/**"
             )
             .build();
     }

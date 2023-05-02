@@ -1,6 +1,8 @@
 app:
   name: ens-front
-  url: 'localhost:${server.port}'
+  # springdoc url 정보
+  desc: 전자고지 Front API
+  url: 'http://localhost:${server.port}${server.servlet.context-path:}'
   # parameter 로그 출력 형식 - CUSTOM : LoggerAspect 사용,  PAYLOAD : CommonsRequestLoggingFilter 사용
   param.log.type: PAYLOAD
   # param.log.type = CUSTOM인 경우 api 호출 결과 출력 여부
@@ -39,6 +41,20 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+springdoc:
+  api-docs:
+    enabled: false
+    path: /api-docs
+  swagger-ui:
+    enabled: false # default true
+    path: /swagger-ui.html
+    csrf:
+      enabled: false
+  version: 'v1'   # API 문서 버전
+  default-consumes-media-type: application/json # default consume media type
+  default-produces-media-type: application/json # default produce media type
+  model-and-view-allowed: true                  # ModelAndView 허용 - excel download시 필요
 
 #-----------------------------------------------------------------
 #  logback-spring.xml 로 설정시 스프링의 환경변수를 로그백 시스템 환경변수로 사용

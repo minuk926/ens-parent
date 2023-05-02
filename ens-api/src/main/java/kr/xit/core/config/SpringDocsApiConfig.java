@@ -1,6 +1,7 @@
 package kr.xit.core.config;
 
 import org.springdoc.core.GroupedOpenApi;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,9 +20,9 @@ import org.springframework.context.annotation.Configuration;
  *
  * </pre>
  */
+@ConditionalOnProperty(value = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = false)
 @Configuration
-public class ApiSpringDocsConfig {
-
+public class SpringDocsApiConfig {
     @Bean
     public GroupedOpenApi authentification() {
         return GroupedOpenApi.builder()
@@ -37,7 +38,8 @@ public class ApiSpringDocsConfig {
         return GroupedOpenApi.builder()
             .group("9. Sample Api")
             .pathsToMatch(
-                "/ens/biz/sample/**"
+                "/api/v1/sample/**"
+                //"/cmm/main/**",
             )
             .build();
     }
