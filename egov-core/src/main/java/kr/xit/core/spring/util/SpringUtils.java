@@ -6,7 +6,9 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
-import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
+import egovframework.com.cmm.jwt.config.EgovJwtTokenUtil;
+import egovframework.com.cmm.jwt.config.JwtVerification;
+//import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import kr.xit.core.spring.config.support.ApplicationContextProvider;
 
 /**
@@ -53,12 +55,28 @@ public class SpringUtils {
 	}
 	
 
+	// /**
+	//  *
+	//  * @return AuthTokenProvider
+	//  */
+	// public static JwtTokenProvider getJwtTokenProvider(){
+	// 	return (JwtTokenProvider)getBean(JwtTokenProvider.class);
+	// }
+
 	/**
 	 *
-	 * @return AuthTokenProvider
+	 * @return JwtVerification
 	 */
-	public static JwtTokenProvider getJwtTokenProvider(){
-		return (JwtTokenProvider)getBean(JwtTokenProvider.class);
+	public static JwtVerification getJwtVerification(){
+		return (JwtVerification)getBean(JwtVerification.class);
+	}
+
+	/**
+	 *
+	 * @return EgovJwtTokenUtil
+	 */
+	public static EgovJwtTokenUtil getEgovJwtTokenUtil(){
+		return (EgovJwtTokenUtil)getBean(EgovJwtTokenUtil.class);
 	}
 
 	/**

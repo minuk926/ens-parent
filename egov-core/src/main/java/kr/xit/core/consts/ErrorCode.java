@@ -64,7 +64,7 @@ ErrorCode {
     CANNOT_FOLLOW_MYSELF(HttpStatus.BAD_REQUEST, "자기 자신은 팔로우 할 수 없습니다"),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
-    //INVALID_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다"),
+    INVALID_AUTH_TOKEN(HttpStatus.FORBIDDEN, "인가된 사용자가 아닙니다"),
     UN_AUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "계정 정보가 존재하지 않습니다"),
     AUTH_HEADER_NOT_EXISTS(HttpStatus.UNAUTHORIZED, "헤더에 인증 정보를 찾을 수 없습니다"),
     LOGOUT_USER(HttpStatus.UNAUTHORIZED, "로그아웃된 사용자 입니다"),
@@ -74,7 +74,7 @@ ErrorCode {
     NOT_EXISTS_SAVED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "저장된 인증 토큰이 없습니다"),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효한 토큰이 아닙니다"),
     INVALID_ROLE_TOKEN(HttpStatus.UNAUTHORIZED, "사용 권한이 없는 토큰 입니다"),
-    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "토큰 유효기간이 경과 되었습니다"),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "유효기간이 경과된 토큰 입니다"),
     INVALID_SIGN_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 서명의 토큰 입니다"),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 유효하지 않습니다"),
     MISMATCH_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "리프레시 토큰의 유저 정보가 일치하지 않습니다"),

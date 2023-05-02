@@ -7,6 +7,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import egovframework.com.cmm.LoginVO;
+import kr.xit.core.consts.Constants;
 import kr.xit.core.support.utils.Checks;
 
 import org.egovframe.rte.fdl.string.EgovObjectUtil;
@@ -37,8 +38,8 @@ public class EgovUserDetailsHelper {
 		 * @return Object - 사용자 ValueObject
 		 */
 		public static Object getAuthenticatedUser() {
-			return (LoginVO)RequestContextHolder.currentRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION)==null ?
-					new LoginVO() : (LoginVO) RequestContextHolder.currentRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
+			return (LoginVO)RequestContextHolder.currentRequestAttributes().getAttribute(Constants.AuthSaveSession.LOGIN_VO.getCode(), RequestAttributes.SCOPE_SESSION)==null ?
+					new LoginVO() : (LoginVO) RequestContextHolder.currentRequestAttributes().getAttribute(Constants.AuthSaveSession.LOGIN_VO.getCode(), RequestAttributes.SCOPE_SESSION);
 
 		}
 
@@ -50,7 +51,7 @@ public class EgovUserDetailsHelper {
 		public static List<String> getAuthorities() {
 			List<String> listAuth = new ArrayList<String>();
 
-			if (Checks.isNull(RequestContextHolder.currentRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION))) {
+			if (Checks.isNull(RequestContextHolder.currentRequestAttributes().getAttribute(Constants.AuthSaveSession.LOGIN_VO.getCode(), RequestAttributes.SCOPE_SESSION))) {
 				// log.debug("## authentication object is null!!");
 				return null;
 			}
@@ -63,7 +64,7 @@ public class EgovUserDetailsHelper {
 		 * @return Boolean - 인증된 사용자 여부(TRUE / FALSE)
 		 */
 		public static Boolean isAuthenticated() {
-			if (Checks.isNull(RequestContextHolder.currentRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION))) {
+			if (Checks.isNull(RequestContextHolder.currentRequestAttributes().getAttribute(Constants.AuthSaveSession.LOGIN_VO.getCode(), RequestAttributes.SCOPE_SESSION))) {
 				// log.debug("## authentication object is null!!");
 				return Boolean.FALSE;
 			}

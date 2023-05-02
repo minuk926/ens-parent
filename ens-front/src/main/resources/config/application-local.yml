@@ -16,8 +16,9 @@ logging:
   level:
     root: debug
   file:
-    # 로그파일 위치
-    path: /Users/minuk/data/ens/logs
+    # 로그파일 위치 : FIXME :: 로그파일 위치 지정
+    path: D:/data/ens/logs
+#    path: /Users/minuk/data/ens/logs
 
 # ==================================================================================================================
 # JPA logging lib setting

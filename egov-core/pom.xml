@@ -41,16 +41,9 @@
     </repositories-->
 
     <dependencies>
-        <!-- spring boot dependency start -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <!--exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions-->
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,6 +108,12 @@
             <groupId>org.egovframe.rte</groupId>
             <artifactId>org.egovframe.rte.psl.dataaccess</artifactId>
             <version>${org.egovframe.rte.version}</version>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.logging.log4j</groupId>-->
+<!--                    <artifactId>log4j-slf4j-impl</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
         <!-- 전자정부 프레임웍 호환성 인증을 위한 필수 library -->
 

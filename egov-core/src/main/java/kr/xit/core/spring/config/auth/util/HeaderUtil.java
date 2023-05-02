@@ -8,7 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import kr.xit.core.consts.Constants;
 import kr.xit.core.consts.ErrorCode;
 import kr.xit.core.exception.BizRuntimeException;
-import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
+//import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
 import kr.xit.core.spring.util.SpringUtils;
 import kr.xit.core.support.utils.Checks;
 
@@ -74,32 +74,49 @@ public class HeaderUtil {
     private static String getUserIdFromToken(String accessToken){
         if(Checks.isEmpty(accessToken))     throw BizRuntimeException.create(ErrorCode.AUTH_HEADER_NOT_EXISTS);
 
+        try {
+            String username = SpringUtils.getEgovJwtTokenUtil().getUsernameFromToken(accessToken);
+            return username;
+        }catch (Exception e){
+            throw BizRuntimeException.create(ErrorCode.INVALID_TOKEN);
+        }
+
 //        JwtToken authToken = SpringUtils.getAuthTokenProvider().convertJwtToken(accessToken);
 //        if (!authToken.validate()) {
 //            return ApiResponse.invalidAccessToken();
 //        }
 
-        JwtTokenProvider jwtTokenProvider = SpringUtils.getJwtTokenProvider();
-
-        if(jwtTokenProvider.validateTokenExcludeExpired(accessToken, false, false)){
-            return jwtTokenProvider.parseClaims(accessToken).getSubject();
-        };
-        throw BizRuntimeException.create(ErrorCode.INVALID_TOKEN);
+        // if (!authToken.validate()) {
+        //   return ApiResponse.invalidAccessToken();
+        // }
+        // JwtTokenProvider jwtTokenProvider = SpringUtils.getJwtTokenProvider();
+        //
+        // if(jwtTokenProvider.validateTokenExcludeExpired(accessToken, false, false)){
+        //     return jwtTokenProvider.parseClaims(accessToken).getSubject();
+        // };
+        // throw BizRuntimeException.create(ErrorCode.INVALID_TOKEN);
     }
 
     private static String getUserNameFromToken(String accessToken){
         if(Checks.isEmpty(accessToken))     throw BizRuntimeException.create(ErrorCode.AUTH_HEADER_NOT_EXISTS);
 
+        try {
+            String username = SpringUtils.getEgovJwtTokenUtil().getUsernameFromToken(accessToken);
+            return username;
+        }catch (Exception e){
+            throw BizRuntimeException.create(ErrorCode.INVALID_TOKEN);
+        }
+
 //        JwtToken authToken = SpringUtils.getAuthTokenProvider().convertJwtToken(accessToken);
 //        if (!authToken.validate()) {
 //            return ApiResponse.invalidAccessToken();
 //        }
 
-        JwtTokenProvider jwtTokenProvider = SpringUtils.getJwtTokenProvider();
-
-        if(jwtTokenProvider.validateTokenExcludeExpired(accessToken, false, false)){
-            return (String) jwtTokenProvider.parseClaims(accessToken).get(Constants.JwtToken.TOKEN_USER_NAME.getCode());
-        };
-        throw BizRuntimeException.create(ErrorCode.INVALID_TOKEN);
+        // JwtTokenProvider jwtTokenProvider = SpringUtils.getJwtTokenProvider();
+        //
+        // if(jwtTokenProvider.validateTokenExcludeExpired(accessToken, false, false)){
+        //     return (String) jwtTokenProvider.parseClaims(accessToken).get(Constants.JwtToken.TOKEN_USER_NAME.getCode());
+        // };
+        // throw BizRuntimeException.create(ErrorCode.INVALID_TOKEN);
     }
 }

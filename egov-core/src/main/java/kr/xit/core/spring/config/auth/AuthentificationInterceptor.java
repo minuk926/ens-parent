@@ -68,11 +68,21 @@ public class AuthentificationInterceptor implements AsyncHandlerInterceptor {//A
                 if(Checks.isNotEmpty(tokenString)){
 
                     try{
+
+                        // Spring Security 미사용
                         tokenString = HeaderUtil.extractAccessToken(tokenString);
-                        if(SpringUtils.getJwtTokenProvider().validateTokenExcludeExpired(tokenString, false, true)){
-                            log.debug("<<==== 토큰인증성공");
-                            return true;
-                        }
+                        if(SpringUtils.getJwtVerification().isVerification(tokenString)){
+                            throw BizRuntimeException.create(ErrorCode.INVALID_AUTH_TOKEN);
+                        };
+                        return true;
+
+                        // Spring Security 사용시
+                        // if(SpringUtils.getJwtTokenProvider().validateTokenExcludeExpired(tokenString, false, true)){
+                        //     log.debug("<<==== 토큰인증성공");
+                        //     return true;
+                        // }
+
+
                     }catch(BizRuntimeException cbe){
                         //TODO Refresh토큰 사용시 자동 재발급하는 경우 주석 제거
                         // access token expired >> refresh 토큰 확인후 access 토큰 재발급
@@ -119,8 +129,9 @@ public class AuthentificationInterceptor implements AsyncHandlerInterceptor {//A
         }
         // 401 : 인가되지 않음으로 에러 처리
         log.error("====인가되지 않음====");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        return false;
+        //response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        throw BizRuntimeException.create(ErrorCode.INVALID_AUTH_TOKEN);
+        //return false;
     }
 
     @Override

@@ -19,8 +19,24 @@ import kr.xit.core.spring.util.SpringUtils;
  */
 public class Constants {
     public static final String API_URL_PATTERNS = "/*";
-    //public static final String MAPPER_RESOURCES = SpringUtils.getEnvironment().getProperty("app.mapper.resources");
 
+    /**
+     * 인증정보 저장(세션)
+     */
+    public enum AuthSaveSession {
+        LOGIN_VO("LoginVO")
+        ;
+
+        private final String code;
+
+        AuthSaveSession(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+    }
 
     /**
      * 인증정보 저장 방식

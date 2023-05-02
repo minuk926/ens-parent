@@ -47,14 +47,6 @@ Globals:
     Extensions: .gif.jpg.jpeg.png.xls.xlsx
     '[Images.Extensions]': .gif.jpg.jpeg.png
 
-  # Access-Control-Allow-Origin
-  Allow:
-    Origin: http://localhost:3000
-
-  #암호화서비스 알고리즘 키
-  #주의 : 반드시 기본값 "egovframe"을 다른것으로 변경하여 사용하시기 바랍니다.
-  '[crypto.algoritm]': egovframe
-
 #server.servlet.context-path=/sht_boot_web
 server:
   port: 8081
