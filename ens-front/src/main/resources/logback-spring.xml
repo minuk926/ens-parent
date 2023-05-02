@@ -26,7 +26,7 @@
 	<!-- ============================================================================= -->
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- 기본 출력 로그 제거 -->
-		<!--Filter class="kr.xit.core.support.logback.ExcludeLogFilter"/-->
+		<Filter class="kr.xit.core.support.logback.ExcludeLogFilter"/>
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
@@ -112,7 +112,7 @@
 	<!-- spring / 3rdparty log : root appender로 로그 전파 - additivity="true" -->
 	<!-- ************************************************************************* -->
 	<logger name="io.swagger.v3.core.converter" level="INFO"/>
-	<logger name="org.springframework" level="DEBUG"/>
+	<logger name="org.springframework" level="INFO"/>
 	<logger name="org.egovframe.rte.fdl.cmmn.exception.manager" level="INFO"/>
 	<logger name="org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer" level="INFO"/>
 	<logger name="org.egovframe" level="ERROR"/>
