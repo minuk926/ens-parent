@@ -7,6 +7,8 @@ app:
   result.log.trace: true
   # SQL 로그 : p6spy
   sql.logging.enabled: true
+  jpa:
+    enabled: false
 
 server:
   port: 8080
@@ -23,6 +25,16 @@ server:
 spring:
   profiles:
     active: '@springProfilesActive@'
+    include:
+      - app
+
+  thymeleaf:
+    prefix: classpath:templates/
+    check-template-location: true
+    suffix: .html
+    mode: HTML
+    cache: true  # 새로고침시 즉시 반영 하려면 false - 개발시
+    template-resolver-order: 0
 
   mvc:
     pathmatch:

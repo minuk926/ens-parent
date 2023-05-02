@@ -2,7 +2,6 @@ package kr.xit.core.spring.config.db;
 
 import javax.sql.DataSource;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
  * @see JpaConfig
  * @see MybatisConfig
  */
-@ConditionalOnProperty(value = "spring.datasource", havingValue = "true", matchIfMissing = false)
 @Slf4j
 @Configuration
 public class DatasourceConfig {

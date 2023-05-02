@@ -3,6 +3,8 @@ package kr.xit.core.spring.config.support;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  * </pre>
  */
+@ConditionalOnResource(resources = {"classpath:config/application-app"})
 @Slf4j
 @Configuration
 public class PropertiesConfig {

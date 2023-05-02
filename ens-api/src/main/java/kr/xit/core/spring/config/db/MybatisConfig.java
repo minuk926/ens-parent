@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.sql.DataSource;
@@ -19,38 +17,19 @@ import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.aop.Advisor;
-import org.springframework.aop.aspectj.AspectJExpressionPointcut;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
-import org.springframework.transaction.interceptor.RollbackRuleAttribute;
-import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
-import org.springframework.transaction.interceptor.TransactionAttribute;
-import org.springframework.transaction.interceptor.TransactionInterceptor;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import kr.xit.core.consts.Constants;
 import kr.xit.core.support.mybatis.CamelCaseLinkedMap;
 import kr.xit.core.support.mybatis.CamelCaseMap;
 import kr.xit.core.support.mybatis.ObjectTypeHandler;
@@ -75,8 +54,6 @@ import lombok.extern.slf4j.Slf4j;
  * @see DatasourceConfig
  * @see JpaConfig
  */
-@ConditionalOnClass(DatasourceConfig.class)
-@ConditionalOnProperty(value = "spring.datasource", havingValue = "true", matchIfMissing = false)
 @Slf4j
 @RequiredArgsConstructor
 @Configuration

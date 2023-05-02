@@ -5,6 +5,7 @@ import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,13 +26,13 @@ import org.springframework.context.annotation.Configuration;
 //FIXME :: properties 암호화시 사용
 @Configuration
 public class JasyptConfig {
-    @Value("${app.jasypt.secretKey}")
+    @Value("${app.jasypt.secretKey:none}")
     private String SECRET_KEY;
 
-    @Value("${app.jasypt.alg}")
+    @Value("${app.jasypt.alg:none}")
     private String SECRET_ALG;
 
-    @Value("${app.jasypt.type}")
+    @Value("${app.jasypt.type:none}")
     private String STRING_TYPE;
 
     @Bean(name = "jasyptStringEncryptor")

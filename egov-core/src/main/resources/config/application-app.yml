@@ -24,6 +24,7 @@ app:
   mapper:
     resources: 'classpath:/egovframework/mapper/**/*-${Globals.DbType}-mapper.xml'
 
+
 # 사용자 ID 정보를 어디에 저장할 것인지 설정
 # JWT 토큰을 사용하고 SessionCreationPolicy.STATELESS인 경우는 SecurityContext 사용불가
 # --> session에 저장하는 방식은 가능
