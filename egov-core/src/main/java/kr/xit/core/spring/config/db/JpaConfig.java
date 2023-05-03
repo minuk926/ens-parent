@@ -32,8 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 //FIXME :: 재설정이 필요한 경우 해당 프로젝트에 동일한 파일로 재정의 하여 사용
 /**
  * <pre>
- * description : JPA 설정 - FIXME :: 재설정이 필요한 경우 동일한 파일로 재정의 하여 사용
- *               - 조건 : app.jpa.enabled: true
+ * description : JPA 설정 - FIXME:: app.jpa.enabled: true 설정이 있는 경우만 loading
+ *               - 조건 : app.jpa.enabled: true (application-app.properties)
  * packageName : kr.xit.core.spring.config.support
  * fileName    : JpaConfig
  * author      : julim

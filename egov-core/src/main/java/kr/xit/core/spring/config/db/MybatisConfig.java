@@ -60,8 +60,8 @@ import lombok.extern.slf4j.Slf4j;
 //FIXME :: 재설정이 필요한 경우 해당프로젝트에 동일한 파일로 재정의 하여 사용
 /**
  * <pre>
- * description : Mybatis 설정
- *               FIXME :: 재설정이 필요한 경우 동일한 파일로 재정의 하여 사용
+ * description : Mybatis 설정 - FIXME:: app.jpa.enabled: true 설정이 있는 경우만 loading
+ *               - 조건 : spring.datasource
  * packageName : kr.xit.core.spring.config.support
  * fileName    : MybatisConfig
  * author      : julim
@@ -76,7 +76,7 @@ import lombok.extern.slf4j.Slf4j;
  * @see JpaConfig
  */
 @ConditionalOnClass(DatasourceConfig.class)
-@ConditionalOnProperty(value = "spring.datasource", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(value = "spring", havingValue = "datasource", matchIfMissing = false)
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
