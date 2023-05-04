@@ -26,7 +26,7 @@ public class SpringDocsApiConfig {
     @Bean
     public GroupedOpenApi authentification() {
         return GroupedOpenApi.builder()
-            .group("1. Authentification Api")
+            .group("1. Authentification API")
             .pathsToMatch(
                 "/api/v1/auth/**"
             )
@@ -34,9 +34,20 @@ public class SpringDocsApiConfig {
     }
 
     @Bean
+    public GroupedOpenApi kakaopayEltrcDoc() {
+        return GroupedOpenApi.builder()
+            .group("1. 카카오페이 전자문서 발송 API")
+            .pathsToMatch(
+                "/api/v1/kakaopay/**"
+                //"/cmm/main/**",
+            )
+            .build();
+    }
+
+    @Bean
     public GroupedOpenApi sample() {
         return GroupedOpenApi.builder()
-            .group("9. Sample Api")
+            .group("9. Sample API")
             .pathsToMatch(
                 "/api/v1/sample/**"
                 //"/cmm/main/**",

@@ -34,27 +34,27 @@ import lombok.Setter;
  * </pre>
  * @see IRestApiResponse
  */
-@Schema(name = "RestApiResult", description = "Restful API 결과", implementation = IRestApiResponse.class)
+@Schema(name = "RestApiResponse", description = "Restful API 결과")//, implementation = IRestApiResponse.class)
 @Getter
 @Setter
 @EqualsAndHashCode
 public class RestApiResponse<T> implements IRestApiResponse, Serializable {
     private static final long SerialVersionUID = 1L;
 
-    @Schema(name = "true: 성공, false:실패", example = "true", description = "에러인 경우 false", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(example = "true", description = "에러인 경우 false", requiredMode = Schema.RequiredMode.REQUIRED)
     private boolean success = true;
     private String code = String.valueOf(ResponseCode.SUCCESS.getCode());
 
-    @Schema(name = "메세지", description = "오류 발생시 오류 메세지", example = " ", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "오류 발생시 오류 메세지", example = " ", requiredMode = Schema.RequiredMode.REQUIRED)
     private String message = ResponseCode.SUCCESS.getMessage();
 
-    @Schema(name = "결과값", description = "오류시 null", example = " ")
+    @Schema(description = "오류시 null", example = " ")
     private T data;
 
-    @Schema(name = "데이타 수", description = "API 실행 결과 데이타 수")
+    @Schema(description = "API 실행 결과 데이타 수")
     private int count;
 
-    @Schema(name = "페이징 정보", description = "결과값이 Collection type인 경우 사용됨", example = " ")
+    @Schema(description = "페이징 정보 - 결과값이 Collection type인 경우 사용됨", example = " ")
     private PaginationInfo paginationInfo;
 
     private RestApiResponse(){}

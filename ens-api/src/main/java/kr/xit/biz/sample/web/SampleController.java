@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +27,12 @@ import lombok.RequiredArgsConstructor;
 
 
 @Tag(name = "SampleController", description = "Api 예제")
-@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1/sample")
 public class SampleController {
 
-    private final EgovBBSManageService bbsMngService;
+	@Autowired
+    private EgovBBSManageService bbsMngService;
 
 	@Operation(summary = "게시판 조회" , description = "게시판 조회")
 	@PostMapping(value = "/main")

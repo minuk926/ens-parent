@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * </pre>
  */
-@Schema(required = true, name = "RestApiResponse", description = "Rest Api Response interface class")
+@Schema(required = true, name = "IRestApiResponse", description = "Rest Api Response interface class", implementation = RestApiResponse.class)
 public interface IRestApiResponse {
     public enum ResponseCode {
 

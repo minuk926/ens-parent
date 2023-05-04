@@ -20,8 +20,10 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -39,8 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 //FIXME :: 재설정이 필요한 경우 해당프로젝트에 동일한 파일로 재정의 하여 사용
 /**
  * <pre>
- * description : Mybatis 설정
- *               FIXME :: 재설정이 필요한 경우 동일한 파일로 재정의 하여 사용
+ * description : Mybatis 설정 - FIXME:: @DependsOn(value = {"dataSource"}) loading
+ *               - 조건 : @DependsOn(value = {"dataSource"})
  * packageName : kr.xit.core.spring.config.support
  * fileName    : MybatisConfig
  * author      : julim
@@ -62,6 +64,7 @@ import lombok.extern.slf4j.Slf4j;
         basePackages = {"egovframework.**.mapper", "kr.xit.**.mapper"},
         sqlSessionFactoryRef = MybatisConfig.SQL_SESSION
 )
+@DependsOn(value = {"dataSource"})
 public class MybatisConfig {
     private final DataSource dataSource;
 

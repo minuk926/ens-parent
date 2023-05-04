@@ -9,6 +9,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import egovframework.com.cmm.jwt.config.EgovJwtTokenUtil;
 import egovframework.com.cmm.jwt.config.JwtVerification;
 //import kr.xit.core.spring.config.auth.jwt.JwtTokenProvider;
+import kr.xit.core.spring.config.properties.CorsProperties;
 import kr.xit.core.spring.config.support.ApplicationContextProvider;
 
 /**
@@ -89,5 +90,9 @@ public class SpringUtils {
 
 	public static Environment getEnvironment(){
 		return (Environment)getBean(Environment.class);
+	}
+
+	public static CorsProperties getCorsProperties(){
+		return (CorsProperties)getBean(CorsProperties.class);
 	}
 }

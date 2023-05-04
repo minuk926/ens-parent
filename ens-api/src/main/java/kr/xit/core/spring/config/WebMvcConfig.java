@@ -1,21 +1,26 @@
 package kr.xit.core.spring.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.core.env.Environment;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.xit.core.consts.Constants;
 import kr.xit.core.spring.config.auth.AuthentificationInterceptor;
+import kr.xit.core.spring.config.properties.CorsProperties;
+import kr.xit.core.spring.filter.SimpleCORSFilter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * <pre>
- * description : Spring MVC 설정 : FIXME : 프로젝트별로 재정의
+ * description : Spring MVC 설정
  *               - filter, interceptor
  * packageName : kr.xit.core.spring.config
  * fileName    : WebMvcConfig
@@ -28,7 +33,8 @@ import kr.xit.core.spring.config.auth.AuthentificationInterceptor;
  *
  * </pre>
  */
-//@Configuration
+@RequiredArgsConstructor
+@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
@@ -57,6 +63,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return bean;
     }
 
+    /**
+     * CORS Filter 등록
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean simpleCorsFilter() {
+        SimpleCORSFilter corsFilter = new SimpleCORSFilter();
+        FilterRegistrationBean bean = new FilterRegistrationBean(corsFilter);
+        bean.setOrder(Ordered.LOWEST_PRECEDENCE);
+        bean.addUrlPatterns(Constants.API_URL_PATTERNS);
+        return bean;
+    }
+
     // @Bean
     // public FilterRegistrationBean readableRequestWrapperFilter() {
     //     ReadableRequestWrapperFilter readableRequestWrapperFilter = new ReadableRequestWrapperFilter();
@@ -72,6 +91,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     		.addPathPatterns("/**/*")
     		.excludePathPatterns(
     			"/api/v1/auth/*"
+//                "/api/v1/kakaopay/*"
     		);
+    }
+
+    // -------------------------------------------------------------
+    // RequestMappingHandlerMapping 설정 View Controller 추가
+    // -------------------------------------------------------------
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/cmmn/validator.do")
+            .setViewName("cmmn/validator");
+        registry.addViewController("/").setViewName("forward:/index.html");
     }
 }

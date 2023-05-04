@@ -40,6 +40,11 @@ public class AuthentificationInterceptor implements AsyncHandlerInterceptor {//A
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
         log.info("AuthentificationInterceptor start ==>> ");
 
+        // Request의 Method가 OPTIONS 인 경우 통과 : CORS 정책에 의한 preFlight pass
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
+
         SecurityPolicy policy = null;
 
         if(handler instanceof HandlerMethod){

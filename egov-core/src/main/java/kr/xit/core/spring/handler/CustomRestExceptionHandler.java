@@ -107,7 +107,6 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @SuppressWarnings("NullableProblems")
     @Override
-    //@ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("==== throw Exception : {} ====", ex.getClass().getCanonicalName());
@@ -115,11 +114,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, String> validErrorMap = new HashMap<>();
         ex.getBindingResult().getFieldErrors()
                 .forEach(e -> validErrorMap.put(e.getField(), e.getDefaultMessage()));
-
-        log.error("##############################################################################################");
-        log.error("{}", validErrorMap);
-        log.error("##############################################################################################");
-
+        return RestApiErrorResponse.getResponseEntity(validErrorMap.toString());
+        /*
         Optional<String> firstKey = validErrorMap
                 .keySet()
                 .stream()
@@ -132,22 +128,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 .findFirst();
 
         String errMsg = "["+firstKey.orElse("에러 메세지가 정의 되지 않았습니다")+"] "+firstMessage.orElse("");
-
-        RestApiErrorResponse errorResponse = RestApiErrorResponse.builder()
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error(HttpStatus.BAD_REQUEST.name())
-                .code(HttpStatus.BAD_REQUEST.name())
-                .message(errMsg)
-                .build();
-
-        log.error("##############################################################################################");
-        log.error("{}", errorResponse);
-        log.error("##############################################################################################");
-
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
+        */
     }
 
     /**
@@ -161,27 +142,11 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @SuppressWarnings("NullableProblems")
     @Override
-    //@ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("==== throw Exception : {} ====", ex.getClass().getCanonicalName());
 
-        RestApiErrorResponse errorResponse = RestApiErrorResponse.builder()
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error(HttpStatus.BAD_REQUEST.name())
-                .code(HttpStatus.BAD_REQUEST.name())
-                .message(ex.getLocalizedMessage())
-                .build();
-
-        log.error("##############################################################################################");
-        log.error("{}", errorResponse);
-        log.error("##############################################################################################");
-
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
-
+        return RestApiErrorResponse.getResponseEntity(ex.getLocalizedMessage());
     }
 
    /**

@@ -10,7 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 
-import kr.xit.core.spring.config.support.CustomBeanNameGenerator;
 import lombok.extern.slf4j.Slf4j;
 
 /**

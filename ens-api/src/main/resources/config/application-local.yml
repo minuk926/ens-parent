@@ -8,7 +8,7 @@ app:
   desc: 전자고지 Rest API
   url: 'http://localhost:${server.port}${server.servlet.context-path:}'
   # parameter 로그 출력 형식 - CUSTOM : LoggerAspect 사용,  PAYLOAD : CommonsRequestLoggingFilter 사용
-  param.log.type: PAYLOAD
+  param.log.type: CUSTOM
   # param.log.type = CUSTOM인 경우 api 호출 결과 출력 여부
   result.log.trace: true
   # SQL 로그 : p6spy
@@ -55,7 +55,7 @@ logging:
 
 # Spring Security cors 설정 :: CorsConfiguration 설정 값
 cors:
-  allowed-origins: https://fonts.gstatic.com,http://localhost:3000,http://localhost,http://211.119.124.107,http://211.119.124.107:3000
+  allowed-origins: http://localhost:8080
 
 # ==================================================================================================================
 # JPA logging lib setting

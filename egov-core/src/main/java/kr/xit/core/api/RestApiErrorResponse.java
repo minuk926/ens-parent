@@ -25,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * <pre>
  * description : Api 에러 응답
+ *               error 로 return 되면 안됀다
+ *               - ResponseEntity.ok()로 처리
  * packageName : kr.xit.core.api
  * fileName    : RestApiErrorResponse
  * author      : julim
@@ -37,7 +39,9 @@ import lombok.extern.slf4j.Slf4j;
  * </pre>
  * @see IRestApiResponse
  */
-@Schema(name = "RestApiErrorResponse", description = "Restful API 에러", implementation = IRestApiResponse.class)
+//TODO :: refactoring 필요
+
+@Schema(name = "RestApiErrorResponse", description = "Restful API 에러")//, implementation = IRestApiResponse.class)
 @JacksonXmlRootElement(localName = "result")
 @Slf4j
 @Getter
@@ -46,35 +50,49 @@ import lombok.extern.slf4j.Slf4j;
 public class RestApiErrorResponse implements IRestApiResponse, Serializable {
     private static final long SerialVersionUID = 1L;
 
-    @Schema(name = "true: 성공, false:실패", example = "false", requiredMode = Schema.RequiredMode.REQUIRED, description = "에러인 경우 false")
+    @Schema(example = "false", requiredMode = Schema.RequiredMode.REQUIRED, description = "성공여부 - 에러인 경우 false")
     private final boolean success = false;
 
-    @Schema(name = "에러 발생 시간", example = " ", description = "에러 발생 시간")
+    @Schema(example = " ", description = "에러 발생 시간")
     private final String timestamp = DateUtils.getTodayAndNowTime("yyyy-MM-dd HH:mm:ss");
 
-    @Schema(name = "HttpStatus 상태", example = " ", description = "HttpStatus 상태")
+    @Schema(example = " ", description = "HttpStatus 상태")
     private final int status;
 
-    @Schema(name = "HttpStatus name", example = " ", description = "HttpStatus name")
+    @Schema(example = " ", description = "HttpStatus name")
     private final String error;
 
-    @Schema(name = "코드(에러코드)", description = "코드(에러코드)")
+    @Schema(description = "코드(에러코드)")
     private final String code;
 
-    @Schema(name = "에러 메세지", example = " ", description = "에러 메세지")
+    @Schema(example = " ", description = "에러 메세지")
     @Setter
     private String message;
 
-    public static ResponseEntity<? extends IRestApiResponse> of(ErrorCode errorCode) {
+    public static ResponseEntity<? extends IRestApiResponse> of(final String message) {
+        RestApiErrorResponse errorResponse = RestApiErrorResponse.builder()
+            .status(HttpStatus.BAD_REQUEST.value())
+            .error(HttpStatus.BAD_REQUEST.name())
+            .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
+            .message(message)
+            .build();
+        printErrorResponse(errorResponse);
+
+        return ResponseEntity
+            .ok()
+            .body(errorResponse);
+    }
+
+    public static ResponseEntity<? extends IRestApiResponse> of(final ErrorCode errorCode) {
         RestApiErrorResponse errorResponse = getErrorResponse(errorCode);
         printErrorResponse(errorResponse);
 
         return ResponseEntity
-                .status(errorCode.getHttpStatus())
+                .ok()
                 .body(errorResponse);
     }
 
-    public static ResponseEntity<? extends IRestApiResponse> of(BizRuntimeException e) {
+    public static ResponseEntity<? extends IRestApiResponse> of(final BizRuntimeException e) {
         RestApiErrorResponse errorResponse = null;
 
         if (Checks.isNotEmpty(e.getErrorCode())) {
@@ -92,11 +110,11 @@ public class RestApiErrorResponse implements IRestApiResponse, Serializable {
         printErrorResponse(errorResponse);
 
         return ResponseEntity
-                .status(e.getHttpStatus())
+                .ok()
                 .body(errorResponse);
     }
 
-    public static ResponseEntity<? extends IRestApiResponse> of(String code, String message) {
+    public static ResponseEntity<? extends IRestApiResponse> of(final String code, final String message) {
         RestApiErrorResponse errorResponse = RestApiErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .error(HttpStatus.BAD_REQUEST.name())
@@ -106,11 +124,11 @@ public class RestApiErrorResponse implements IRestApiResponse, Serializable {
         printErrorResponse(errorResponse);
 
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .ok()
                 .body(errorResponse);
     }
 
-    public static RestApiErrorResponse getErrorResponse(ErrorCode errorCode) {
+    public static RestApiErrorResponse getErrorResponse(final ErrorCode errorCode) {
         return RestApiErrorResponse.builder()
                 .status(errorCode.getHttpStatus().value())
                 .error(errorCode.getHttpStatus().name())
@@ -119,12 +137,26 @@ public class RestApiErrorResponse implements IRestApiResponse, Serializable {
                 .build();
     }
 
+    public static ResponseEntity<Object> getResponseEntity(final String message) {
+        RestApiErrorResponse errorResponse = RestApiErrorResponse.builder()
+            .status(HttpStatus.BAD_REQUEST.value())
+            .error(HttpStatus.BAD_REQUEST.name())
+            .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
+            .message(message)
+            .build();
+        printErrorResponse(errorResponse);
+
+        return ResponseEntity
+            .ok()
+            .body(errorResponse);
+    }
+
     public String convertToJson() {
         return ConvertHelper.jsonToObject(this);
     }
 
 
-    private static void printErrorResponse(RestApiErrorResponse errorResponse) {
+    private static void printErrorResponse(final RestApiErrorResponse errorResponse) {
         log.error("##############################################################################################");
         log.error("{}", errorResponse);
         log.error("##############################################################################################");
