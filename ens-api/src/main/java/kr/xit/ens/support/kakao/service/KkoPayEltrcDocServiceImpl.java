@@ -3,7 +3,9 @@ package kr.xit.ens.support.kakao.service;
 import kr.xit.core.api.IRestApiResponse;
 import kr.xit.core.api.RestApiErrorResponse;
 import kr.xit.core.api.RestApiResponse;
+import kr.xit.core.consts.Constants;
 import kr.xit.core.support.utils.JsonUtil;
+import kr.xit.ens.support.common.KakaoConstants;
 import kr.xit.ens.support.kakao.dto.KkoPayEltrDocDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +53,10 @@ import javax.validation.Validator;
 @Profile({"!local-test"})
 public class KkoPayEltrcDocServiceImpl extends EgovAbstractServiceImpl implements IKkoPayEltrcDocService {
 
+    @Value("${contract.kakao.pay.mydoc.access-token}")
+    private String accessToken;
+    @Value("${contract.kakao.pay.mydoc.contract-uuid}")
+    private String contractUuid;
     @Value("${contract.kakao.pay.mydoc.host}")
     private String HOST;
     @Value("${contract.kakao.pay.mydoc.api.send}")
@@ -90,78 +96,23 @@ public class KkoPayEltrcDocServiceImpl extends EgovAbstractServiceImpl implement
 
             return RestApiErrorResponse.of(errors.toString());
         }
+
+        HttpHeaders headers = new HttpHeaders();
+        //		headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(new MediaType(MediaType.APPLICATION_JSON, Charset.forName("utf-8")));
+        headers.set(KakaoConstants.HeaderName.TOKEN.getCode(), String.format("%s %s", Constants.JwtToken.GRANT_TYPE.getCode(), accessToken));
+        headers.set(KakaoConstants.HeaderName.UUID.getCode(), contractUuid);
+
+        StringBuilder url = new StringBuilder()
+            .append(HOST)
+            .append(API_SEND);
+
+        ResponseEntity<String> resp = this.callApi(HttpMethod.GET, url.toString(), JsonUtil.toJson(reqDTO), headers);
+
         return RestApiResponse.of(reqDTO);
     }
 
-    //public ResponseEntity<String> requestSend(String accessToken, String contractUuid, String jsonStr) {
 
-    // TmpltMngKkoAlimtalkDTO dto = mapper.convertValue(params, TmpltMngKkoAlimtalkDTO.class);
-    // final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-    // Set<ConstraintViolation<TmpltMngKkoAlimtalkDTO>> list = validator.validate(dto);
-    // if (list.size() > 0) {
-    //     throw new EnsException(EnsErrCd.ERR410, "유효하지 않은 요청 값 입니다.", list.stream()
-    //         .map(row -> String.format("%s [ %s ]", row.getMessageTemplate(), row.getPropertyPath()))
-    //         .collect(Collectors.toList())
-    //     );
-    // }
-    //
-
-    // NtriDTO.Request request = JsonUtil.toObject(params, NtriDTO.Request.class);
-    // NtriDTO.NtriRequestBody<NtriDTO.Imposition>  body = (NtriDTO.NtriRequestBody<NtriDTO.Imposition>)request.getBody();
-    // NtriDTO.Imposition imposeDTO = JsonUtil.toObjByObj(body.getReqVo(), NtriDTO.Imposition.class);
-
-
-
-    // HttpHeaders headers = new HttpHeaders();
-    // //		headers.setContentType(MediaType.APPLICATION_JSON);
-    //     headers.setContentType(new MediaType(MediaType.APPLICATION_JSON, Charset.forName("utf-8")));
-    //     headers.set("Authorization", String.format("Bearer %s", accessToken));
-    //     headers.set("Contract-Uuid", contractUuid);
-    //
-    //
-    // StringBuilder url = new StringBuilder();
-    //     url.append(this.HOST)
-    //     .append(API_SEND);
-    //
-    //
-    // //ResponseEntity<String> resp = this.callApi(HttpMethod.POST, url.toString(), jsonStr, headers);
-    // //return resp;
-    //     return null;
-
-
-
-
-
-
-
-//     /**
-//      * 토큰 유효성 검증(Redirect URL  접속 허용/불허)
-//      */
-//     @Override
-//     public ResponseEntity<String> token(String accessToken, String documentBinderUuid, String token) {
-//
-//         HttpHeaders headers = new HttpHeaders();
-// //		headers.setContentType(MediaType.APPLICATION_JSON);
-//         headers.setContentType(new MediaType(MediaType.APPLICATION_JSON, Charset.forName("utf-8")));
-//         headers.set("Authorization", String.format("Bearer %s", accessToken));
-//         headers.set("X-Xit-DBUuid", documentBinderUuid);
-//         headers.set("X-Xit-Ott", token);
-//
-//
-//         StringBuilder url = new StringBuilder();
-//         url.append(this.HOST)
-//                 .append(API_TOKEN
-//                         .replace("{documentBinderUuid}", documentBinderUuid == null ? "" : documentBinderUuid)
-//                         .replace("{token}", token == null ? "" : token)
-//                 );
-//
-//
-//
-//         ResponseEntity<String> resp = this.callApi(HttpMethod.GET, url.toString(), null, headers);
-//         return resp;
-//     }
-//
-//
 //     /**
 //      * 문서 상태 변경 API
 //      */
@@ -281,89 +232,91 @@ public class KkoPayEltrcDocServiceImpl extends EgovAbstractServiceImpl implement
 //         ResponseEntity<String> resp = this.callApi(HttpMethod.POST, url.toString(), jsonStr, headers);
 //         return resp;
 //     }
-//
-//
-//     /**
-//      * <pre>메소드 설명: API 호출
-//      * </pre>
-//      *
-//      * @param method
-//      * @param url
-//      * @param body
-//      * @param headers
-//      * @return ResponseEntity 요청처리 후 응답객체
-//      * @author: 박민규
-//      * @date: 2021. 8. 4.
-//      * @apiNote: 사이트 참조 https://e2e2e2.tistory.com/15
-//      */
-//     private ResponseEntity<String> callApi(HttpMethod method, String url, String body, HttpHeaders headers) {
-//
-//         StringBuffer sb = new StringBuffer();
-//         ResponseEntity<String> responseEntity = null;
-//         try {
-//
-//             HttpEntity<?> entity = null;
-//             UriComponents uri = null;
-//             switch (method) {
-//                 case GET:
-//                     entity = new HttpEntity<>(headers);
-//                     uri = UriComponentsBuilder
-//                             .fromHttpUrl(String.format("%s?%s", url, body == null ? "" : body))
-// //							.encode(StandardCharsets.UTF_8)	//"%"기호가 "%25"로 인코딩 발생하여 주석처리 함.
-//                             .build(false);
-//                     break;
-//                 case POST:
-//                     entity = new HttpEntity<>(body, headers);
-//                     uri = UriComponentsBuilder
-//                             .fromHttpUrl(url)
-//                             .encode(StandardCharsets.UTF_8)
-//                             .build();
-//                     break;
-//
-//                 default:
-//                     break;
-//             }
-//
-//
-//
-//             HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-//             factory.setConnectTimeout(3000);
-// //			factory.setReadTimeout(3000);
-//             factory.setReadTimeout(10000);
-//
-//
-//             RestTemplate restTemplate = new RestTemplate(factory);
-//             sb.append("\n  url => " + uri.toString())
-//                     .append("\n  method => " + method)
-//                     .append("\n  headers => " + entity.getHeaders().toString())
-//                     .append("\n  body => " + entity.getBody());
-//             responseEntity = restTemplate.exchange(URI.create(uri.toString()), method, entity, String.class);
-//
-//             /*
-//              * HttpStatus 정보 확인 방법
-//              * 	-.코드: responseEntity.getStatusCodeValue()
-//              * 	-.메시지: responseEntity.getStatusCode()
-//              */
-//
-//         } catch (HttpServerErrorException e) {
-//             responseEntity = new ResponseEntity<String>(e.getResponseBodyAsString(), e.getStatusCode());
-//             log.error("call API 서버오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, CmmnUtil.printStackTraceToString(e));
-//         } catch (HttpClientErrorException e) {
-//             responseEntity = new ResponseEntity<String>(e.getResponseBodyAsString(), e.getStatusCode());
-//             log.error("call API 클라이언트오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, CmmnUtil.printStackTraceToString(e));
-//         } catch (RestClientException e) {
-//             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.REQUEST_TIMEOUT);
-//             log.error("RestAPI 호출 오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, CmmnUtil.printStackTraceToString(e));
-//         } catch (Exception e) {
-//             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//             log.error("call API 기타오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, CmmnUtil.printStackTraceToString(e));
-//         } finally {
-//             log.info("카카오페이 내문서함(인증톡) API\n[ REQUEST ]-----------------------------------------------------------------------\n{}\n[ RESPONSE ]-----------------------------------------------------------------------\n{}", sb.toString(), responseEntity.getBody());
-//         }
-//
-//
-//         return responseEntity;
-//     }
+
+
+    /**
+     * <pre>메소드 설명: API 호출
+     * </pre>
+     *
+     * @param method
+     * @param url
+     * @param body
+     * @param headers
+     * @return ResponseEntity 요청처리 후 응답객체
+     * @author: 박민규
+     * @date: 2021. 8. 4.
+     * @apiNote: 사이트 참조 https://e2e2e2.tistory.com/15
+     */
+    private ResponseEntity<String> callApi(HttpMethod method, String url, String body, HttpHeaders headers) {
+
+        StringBuffer sb = new StringBuffer();
+        ResponseEntity<String> responseEntity = null;
+        try {
+
+            HttpEntity<?> entity = null;
+            UriComponents uri = null;
+            switch (method) {
+                case GET:
+                    entity = new HttpEntity<>(headers);
+                    uri = UriComponentsBuilder
+                            .fromHttpUrl(String.format("%s?%s", url, body == null ? "" : body))
+//							.encode(StandardCharsets.UTF_8)	//"%"기호가 "%25"로 인코딩 발생하여 주석처리 함.
+                            .build(false);
+                    break;
+                case POST:
+                    entity = new HttpEntity<>(body, headers);
+                    uri = UriComponentsBuilder
+                            .fromHttpUrl(url)
+                            .encode(StandardCharsets.UTF_8)
+                            .build();
+                    break;
+
+                default:
+                    break;
+            }
+
+            HttpComponentsClientHttpRequestFactory factory = null;
+try {
+    factory = new HttpComponentsClientHttpRequestFactory();
+}catch (Exception e){
+    e.printStackTrace();
+}
+            factory.setConnectTimeout(3000);
+//			factory.setReadTimeout(3000);
+            factory.setReadTimeout(10000);
+
+
+            RestTemplate restTemplate = new RestTemplate(factory);
+            sb.append("\n  url => " + uri.toString())
+                    .append("\n  method => " + method)
+                    .append("\n  headers => " + entity.getHeaders().toString())
+                    .append("\n  body => " + entity.getBody());
+            responseEntity = restTemplate.exchange(URI.create(uri.toString()), method, entity, String.class);
+
+            /*
+             * HttpStatus 정보 확인 방법
+             * 	-.코드: responseEntity.getStatusCodeValue()
+             * 	-.메시지: responseEntity.getStatusCode()
+             */
+
+        } catch (HttpServerErrorException e) {
+            responseEntity = new ResponseEntity<String>(e.getResponseBodyAsString(), e.getStatusCode());
+            log.error("call API 서버오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, e.getMessage());
+        } catch (HttpClientErrorException e) {
+            responseEntity = new ResponseEntity<String>(e.getResponseBodyAsString(), e.getStatusCode());
+            log.error("call API 클라이언트오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, e.getMessage());
+        } catch (RestClientException e) {
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.REQUEST_TIMEOUT);
+            log.error("RestAPI 호출 오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, e.getMessage());
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("call API 기타오류\n[ url ]: {} \n[ param ]: {} \n[ error ]: {}", url, body, e.getMessage());
+        } finally {
+            log.info("카카오페이 내문서함(인증톡) API\n[ REQUEST ]-----------------------------------------------------------------------\n{}\n[ RESPONSE ]-----------------------------------------------------------------------\n{}", sb.toString(), responseEntity.getBody());
+        }
+
+
+        return responseEntity;
+    }
 
 }
 
