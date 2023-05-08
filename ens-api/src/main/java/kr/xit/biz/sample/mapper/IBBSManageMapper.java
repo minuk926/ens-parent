@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import kr.xit.biz.sample.dto.BoardVO;
+import kr.xit.biz.sample.model.BoardVO;
 
 @Mapper
 public interface IBBSManageMapper {

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- Default Layout Import-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/default}"
+      layout:fragment="Content"
+>
+<head>
+    <title>테스트 페이지 </title>
+
+    <!-- inline CSS 영역-->
+    <style th:inline="css" type="text/css">
+        body {
+            margin: 30px;
+            border: 1px solid red;
+        }
+        #divData {
+            display: flex;
+        }
+        #errData {
+            color: red;
+        }
+    </style>
+
+    <!-- inline JS 영역-->
+    <script th:inline="javascript" type="text/javascript">
+        const REAL_API = [
+            "http://localhost:8081/api/kakaopay/v1/documents",
+            "http://localhost:8081/api/kakaopay/v1/validToken",
+        ]
+        const TEST_API = [
+            "http://localhost:8081/api/kakaopay/test/documents",
+            "http://localhost:8081/api/kakaopay/test/validToken",
+        ]
+
+        let data = [
+            {
+                document : {
+                    title : "문서 제목",
+                    common_categories : ["NOTICE"],
+                    read_expired_at : 1617202800,
+                    hash : "6EFE827AC88914DE471C621AE",
+                    receiver : {
+                        phone_number : "01012345678",
+                        name : "김페이",
+                        birthday : "19800101",
+                        is_required_verify_name : false
+                    },
+                    property : {
+                        link : "https://redirect.url/kakaopay",
+                        payload : "payload 파라미터 입니다.",
+                        message : "해당 안내문은 다음과 같습니다.",
+                        cs_number : "02-123-4567",
+                        cs_name : "콜센터"
+                    }
+                }
+            },
+            {
+                document_binder_uuid: 'BIN-ff806328863311ebb61432ac599d6150',
+                token: 'CON-cc375944ae3d11ecb91e42193199ee3c'
+            },
+        ];
+
+
+        const requestSend = (method, url, data) => {
+            $("#resData").text('');
+            $("#errData").text('');
+
+            //let token = $("meta[name='token']").attr("content");
+            //let header = $("meta[name='header']").attr("content");
+
+            $.ajax({
+                url: url,
+                type: method,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                beforeSend: (xhr) => {
+                    //xhr.setRequestHeader(header, token);
+                    $("#loading").show();
+
+                },
+                success: function (res, textStatus) {
+                    console.log( JSON.stringify(res));
+                    //res.success? $("#resData").text(JSON.stringify(res.data)) : alert(res.message);
+                    //res.success? $("#resData").text(JSON.stringify(res.data)) : $("#resData").text(res.message);
+                    res.success? $("#resData").text(JSON.stringify(res.data)) : $("#errData").text(JSON.stringify(res));
+                },
+                error : function(data) {
+                    alert("점검필요-error로 return", data.responseText);
+                },
+                complete: () => {
+                    $("#loading").hide();
+                }
+            });
+        }
+        $(document).ready(() => {
+            $("#loading").hide();
+        });
+    </script>
+</head>
+
+<body>
+<div>
+    <ul>
+        <li><input type="button" value="카카오페이 전자문서요청" onclick="requestSend('post', REAL_API[0], data[0])"></li>
+        <li><input type="button" value="토큰유효성 검증" onclick="requestSend('post', REAL_API[1], data[1])"></li>
+        <li><input type="button" value="[Test]카카오페이 전자문서요청" onclick="requestSend('post', TEST_API[0], data[0])"></li>
+        <li><input type="button" value="[Test]토큰유효성 검증" onclick="requestSend('post', TEST_API[1], data[1])"></li>
+    </ul>
+    <p id="loading"><strong>Loading...</strong></p>
+    <div id="divParam">
+        <textarea cols="80" rows="20" id="paramData"></textarea>
+    </div>
+    <div id="divData">
+        <textarea cols="80" rows="20" id="resData"></textarea>
+        <textarea cols="50" rows="20" id="errData"></textarea>
+    </div>
+</div>
+</body>
+</html>

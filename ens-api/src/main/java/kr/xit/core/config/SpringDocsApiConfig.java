@@ -36,12 +36,23 @@ public class SpringDocsApiConfig {
     @Bean
     public GroupedOpenApi kakaopayEltrcDoc() {
         return GroupedOpenApi.builder()
-            .group("1. 카카오페이 전자문서 발송 API")
+            .group("2. 카카오페이 전자문서 발송 API")
             .pathsToMatch(
-                "/api/v1/kakaopay/**"
+                "/api/kakaopay/v1/**"
                 //"/cmm/main/**",
             )
             .build();
+    }
+
+    @Bean
+    public GroupedOpenApi kakaopayEltrcDocTest() {
+        return GroupedOpenApi.builder()
+                .group("6. 카카오페이 전자문서 발송 Test")
+                .pathsToMatch(
+                        "/api/kakaopay/test/**"
+                        //"/cmm/main/**",
+                )
+                .build();
     }
 
     @Bean

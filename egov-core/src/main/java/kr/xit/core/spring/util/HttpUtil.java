@@ -1,9 +1,20 @@
 package kr.xit.core.spring.util;
 
 import java.nio.charset.Charset;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import kr.xit.core.consts.Constants;
+import kr.xit.core.exception.BizRuntimeException;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,6 +25,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import javax.net.ssl.SSLContext;
 
 public class HttpUtil {
  
@@ -32,13 +45,27 @@ public class HttpUtil {
  
     public HttpUtil(){
         this.headers = new HttpHeaders();
+
+        try{
+            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
+            SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+
+            SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
+        } catch (NoSuchAlgorithmException e) {
+            throw BizRuntimeException.create(e.getMessage());
+        } catch (KeyStoreException e) {
+            throw BizRuntimeException.create(e.getMessage());
+        } catch (KeyManagementException e) {
+            throw BizRuntimeException.create(e.getMessage());
+        }
         this.factory = new HttpComponentsClientHttpRequestFactory();
-        this.factory.setConnectTimeout(5000);
-        this.factory.setReadTimeout(5000);
+        this.factory.setConnectTimeout(Constants.CONNECT_TIMEOUT);
+        this.factory.setReadTimeout(Constants.READ_TIMEOUT);
         this.body = new LinkedMultiValueMap<String, String>();
         this.queryStringToken = true;
     }
- 
+
     /**
      * content-type 설정 : new MediaType 설정 값
      *

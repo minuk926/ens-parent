@@ -4,7 +4,7 @@
 <mapper namespace="kr.xit.biz.sample.mapper.IBBSManageMapper">
 
 
-	<resultMap id="boardList" type="kr.xit.biz.sample.dto.BoardVO">
+	<resultMap id="boardList" type="kr.xit.biz.sample.model.BoardVO">
 		<result property="bbsId" column="BBS_ID"/>
 		<result property="nttId" column="NTT_ID"/>
 		<result property="nttSj" column="NTT_SJ"/>
@@ -22,7 +22,7 @@
 	</resultMap>
 
 
-	<select id="selectBoardArticleList" parameterType="kr.xit.biz.sample.dto.BoardVO" resultMap="boardList">
+	<select id="selectBoardArticleList" parameterType="kr.xit.biz.sample.model.BoardVO" resultMap="boardList">
 		/** sample-mysql-mapper|selectBoardArticleList-게시글목록조회|julim  */
 		SELECT a.NTT_ID
 		     , a.NTT_SJ
@@ -64,7 +64,7 @@
 	</select>
 
 
-	<select id="selectBoardArticleListCnt" parameterType="kr.xit.biz.sample.dto.BoardVO" resultType="int">
+	<select id="selectBoardArticleListCnt" parameterType="kr.xit.biz.sample.model.BoardVO" resultType="int">
 		/** sample-mysql-mapper|selectBoardArticleListCnt-게시글목록건수조회|julim  */
 		SELECT
 			COUNT(a.NTT_ID)

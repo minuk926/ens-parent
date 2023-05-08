@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import egovframework.com.cmm.EgovWebUtil;
-import egovframework.com.cmm.vo.EgovFormBasedFileVo;
+import egovframework.com.cmm.model.EgovFormBasedFileVo;
 
 /**
  * @Class Name  : EgovFileUploadUtil.java

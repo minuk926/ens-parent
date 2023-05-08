@@ -2,7 +2,7 @@ package kr.xit.biz.sample.service;
 
 import java.util.Map;
 
-import kr.xit.biz.sample.dto.BoardVO;
+import kr.xit.biz.sample.model.BoardVO;
 
 /**
  * 게시물 관리를 위한 서비스 인터페이스  클래스

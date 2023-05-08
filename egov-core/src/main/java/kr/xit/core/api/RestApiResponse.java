@@ -88,9 +88,9 @@ public class RestApiResponse<T> implements IRestApiResponse, Serializable {
         return of(data, code, getResponseCode(code).getMessage());
     }
 
-    public static <T> ResponseEntity<? extends IRestApiResponse> of(String code){
-        return of(null, code, getResponseCode(code).getMessage());
-    }
+    // public static <T> ResponseEntity<? extends IRestApiResponse> of(String code){
+    //     return of(null, code, getResponseCode(code).getMessage());
+    // }
 
     public static <T> ResponseEntity<? extends IRestApiResponse> of(String code, String message){
         return of(null, code, message);

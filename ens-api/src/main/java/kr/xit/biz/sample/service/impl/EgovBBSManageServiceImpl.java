@@ -13,7 +13,7 @@ import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.util.EgovDateUtil;
-import kr.xit.biz.sample.dto.BoardVO;
+import kr.xit.biz.sample.model.BoardVO;
 import kr.xit.biz.sample.mapper.IBBSManageMapper;
 import kr.xit.biz.sample.service.EgovBBSManageService;
 

@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import egovframework.com.cmm.EgovWebUtil;
-import egovframework.com.cmm.vo.EgovFormBasedUUID;
+import egovframework.com.cmm.model.EgovFormBasedUUID;
 
 /**
  * @Class Name  : EgovFormBasedFileUtil.java

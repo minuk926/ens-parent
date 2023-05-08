@@ -2,10 +2,6 @@ package kr.xit.core.consts;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.springframework.http.HttpStatus;
-
-import kr.xit.core.spring.util.SpringUtils;
-
 /**
  * <pre>
  * description : 상수 정의
@@ -22,9 +18,9 @@ import kr.xit.core.spring.util.SpringUtils;
  */
 public class Constants {
     public static final String API_URL_PATTERNS = "/*";
-    public static final	int	CONNECT_TIMEOUT	= 30 * 1000;		// 30초
-    public static final	int	READ_TIMEOUT = 60 * 1000 * 3;	// 3분
-    public static final Charset CHARSET	= StandardCharsets.UTF_8;
+    public static final	int	CONNECT_TIMEOUT	= 5 * 1000;		// 5초
+    public static final	int	READ_TIMEOUT = 5 * 1000;	// 5초
+    public static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
     public static final String DEFAULT_VIEW = "mappingJackson2JsonView";
 
     /**

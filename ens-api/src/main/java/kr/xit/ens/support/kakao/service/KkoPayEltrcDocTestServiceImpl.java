@@ -2,27 +2,29 @@ package kr.xit.ens.support.kakao.service;
 
 import kr.xit.core.api.IRestApiResponse;
 import kr.xit.core.api.RestApiErrorResponse;
+import kr.xit.core.api.RestApiResponse;
 import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.support.utils.Checks;
 import kr.xit.core.support.utils.JsonUtils;
+import kr.xit.ens.support.common.code.KkoReponseCode;
 import kr.xit.ens.support.common.util.RestUtils;
 import kr.xit.ens.support.kakao.model.KkoPayEltrDocDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -41,7 +43,7 @@ import javax.validation.Validator;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class KkoPayEltrcDocServiceImpl extends EgovAbstractServiceImpl implements IKkoPayEltrcDocService {
+public class KkoPayEltrcDocTestServiceImpl extends EgovAbstractServiceImpl implements IKkoPayEltrcDocTestService {
 
     @Value("${contract.kakao.pay.mydoc.access-token}")
     private String accessToken;
@@ -54,7 +56,7 @@ public class KkoPayEltrcDocServiceImpl extends EgovAbstractServiceImpl implement
     @Value("${contract.kakao.pay.mydoc.api.token}")
     private String API_TOKEN;
     @Value("${contract.kakao.pay.mydoc.api.readcompleted}")
-    private String API_MODIFY_STATUS;
+    private String API_READCOMPLETED;
     @Value("${contract.kakao.pay.mydoc.api.status}")
     private String API_STATUS;
     @Value("${contract.kakao.pay.mydoc.api.bulksend}")
@@ -103,7 +105,19 @@ public class KkoPayEltrcDocServiceImpl extends EgovAbstractServiceImpl implement
             .append(HOST)
             .append(API_SEND);
 
-        return RestUtils.callRestApi(restTemplate, HttpMethod.POST, headers, JsonUtils.toJson(reqDTO), url.toString(), String.class);
+        RestUtils.callTestRestApi(restTemplate, HttpMethod.POST, headers, JsonUtils.toJson(reqDTO), url.toString(), String.class);
+
+        // FIXME : 성공
+        Map<String,Object> map = new HashMap<>();
+        map.put("document_binder_uuid", "BIN-ff806328863311ebb61432ac599d6150");
+        return RestApiResponse.of(map);
+
+        // FIXME : 에러
+//        return ResponseEntity
+//            .status(HttpStatus.BAD_REQUEST)
+//            .body(getErrorResponse(KkoReponseCode.ErrorCode.UNIDENTIFIED_USER));
+
+
     }
 
     @Override
@@ -125,38 +139,94 @@ public class KkoPayEltrcDocServiceImpl extends EgovAbstractServiceImpl implement
             .append(HOST)
             .append(
                 API_TOKEN.replace("{document_binder_uuid}", reqDTO.getDocument_binder_uuid())
-                         .replace("{token}", reqDTO.getToken())
+                    .replace("{token}", reqDTO.getToken())
             );
-        return RestUtils.callRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
+
+        // FIXME : 결과 SET
+        // String 타입
+        //ResponseEntity<?> entity = RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), String.class);
+        //RestApiResponse res = JsonUtils.toObjByObj(entity.getBody(), RestApiResponse.class);
+        //json String -> Object
+        //KkoPayEltrDocDTO.ValidTokenRes dto = JsonUtils.toObject(res.getData().toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
+
+        // FIXME : 결과 SET
+        // Object 타입
+        ResponseEntity<? extends IRestApiResponse> entity = RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
+        //RestApiResponse res = JsonUtils.toObjByObj(entity.getBody(), RestApiResponse.class);
+        // data -> Object
+        //KkoPayEltrDocDTO.ValidTokenRes dto = (KkoPayEltrDocDTO.ValidTokenRes)res.getData();
+
+        //return RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
+        return entity;
     }
 
-    @Override
-    public ResponseEntity<? extends IRestApiResponse> modifyStatus(final String document_binder_uuid){
-        if(Checks.isEmpty(document_binder_uuid) || document_binder_uuid.length() > 40){
-            throw BizRuntimeException.create("문서 식별 번호는 필수입니다(max:40자)");
-        }
-
-        String body = "{\"document\": {\"is_detail_read\": true} }";
-        HttpHeaders headers = RestUtils.setHeaders(accessToken, contractUuid);
-        StringBuilder url = new StringBuilder()
-            .append(HOST)
-            .append(API_MODIFY_STATUS.replace("{document_binder_uuid}", document_binder_uuid));
-        return RestUtils.callRestApi(restTemplate, HttpMethod.POST, headers, body, url.toString(), String.class);
+    private static RestApiErrorResponse getErrorResponse(final KkoReponseCode.ErrorCode errorCode) {
+        return RestApiErrorResponse.builder()
+                //.httpStatus(HttpStatus.)
+                .statusCode(errorCode.getErrorCode())
+                //.error(errorCode.getErrorString())
+                .code(errorCode.getErrorString())
+                .message(errorCode.getMessage())
+                .build();
     }
 
-    @Override
-    public ResponseEntity<? extends IRestApiResponse> findStatus(final String document_binder_uuid){
-        if(Checks.isEmpty(document_binder_uuid) || document_binder_uuid.length() > 40){
-            throw BizRuntimeException.create("문서 식별 번호는 필수입니다(max:40자)");
-        }
 
-        HttpHeaders headers = RestUtils.setHeaders(accessToken, contractUuid);
-        StringBuilder url = new StringBuilder()
-            .append(HOST)
-            .append(API_STATUS.replace("{document_binder_uuid}", document_binder_uuid));
-        return RestUtils.callRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), KkoPayEltrDocDTO.DocStatusRes.class);
-    }
-
+//     /**
+//      * 문서 상태 변경 API
+//      */
+//     @Override
+//     public ResponseEntity<String> readCompleted(String accessToken, String documentBinderUuid) {
+//
+//         HttpHeaders headers = new HttpHeaders();
+// //		headers.setContentType(MediaType.APPLICATION_JSON);
+//         headers.setContentType(new MediaType(MediaType.APPLICATION_JSON, Charset.forName("utf-8")));
+//         headers.set("Authorization", String.format("Bearer %s", accessToken));
+//         headers.set("X-Xit-DBUuid", documentBinderUuid);
+//
+//
+//         StringBuilder url = new StringBuilder();
+//         url.append(this.HOST)
+//                 .append(API_READCOMPLETED.replace("{documentBinderUuid}", documentBinderUuid == null ? "" : documentBinderUuid));
+//
+//
+//
+//         String jsonStr = "{                                 "
+//                 + "    \"document\" :{               "
+//                 + "        \"is_detail_read\" : true "
+//                 + "    }                             "
+//                 + "}                                 ";
+//
+//
+//
+//         ResponseEntity<String> resp = this.callApi(HttpMethod.POST, url.toString(), jsonStr, headers);
+//         return resp;
+//
+//     }
+//
+//
+//     /**
+//      * 문서 상태 조회 API
+//      */
+//     @Override
+//     public ResponseEntity<String> status(String accessToken, String contractUuid, String documentBinderUuid) {
+//
+//         HttpHeaders headers = new HttpHeaders();
+// //		headers.setContentType(MediaType.APPLICATION_JSON);
+//         headers.setContentType(new MediaType(MediaType.APPLICATION_JSON, Charset.forName("utf-8")));
+//         headers.set("Authorization", String.format("Bearer %s", accessToken));
+//         headers.set("Contract-Uuid", contractUuid);
+//         headers.set("X-Xit-DBUuid", documentBinderUuid);
+//
+//
+//         StringBuilder url = new StringBuilder();
+//         url.append(this.HOST)
+//                 .append(API_STATUS.replace("{documentBinderUuid}", documentBinderUuid == null ? "" : documentBinderUuid));
+//
+//
+//         ResponseEntity<String> resp = this.callApi(HttpMethod.GET, url.toString(), null, headers);
+//         return resp;
+//
+//     }
 //
 //
 //     /**

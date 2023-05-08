@@ -3,8 +3,6 @@ package kr.xit.biz.sample.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.xit.biz.sample.dto.BoardVO;
+import kr.xit.biz.sample.model.BoardVO;
 import kr.xit.biz.sample.service.EgovBBSManageService;
 import kr.xit.core.api.IRestApiResponse;
 import kr.xit.core.api.RestApiResponse;
-import kr.xit.core.exception.BizRuntimeException;
 import kr.xit.core.spring.annotation.Secured;
 import kr.xit.core.spring.annotation.SecurityPolicy;
-import lombok.RequiredArgsConstructor;
 
 //@SessionAttributes(types = ComDefaultVO.class)
 

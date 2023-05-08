@@ -49,8 +49,8 @@
 	<!-- Type Aliases 설정-->
 	<typeAliases>
 		<typeAlias alias="egovMap" 			type="org.egovframe.rte.psl.dataaccess.util.EgovMap" />
-		<typeAlias alias="ComDefaultCodeVO" type="egovframework.com.cmm.vo.ComDefaultCodeVO" />
-		<typeAlias alias="comDefaultVO"		type="egovframework.com.cmm.vo.ComDefaultVO" />
+		<typeAlias alias="ComDefaultCodeVO" type="egovframework.com.cmm.model.ComDefaultCodeVO" />
+		<typeAlias alias="comDefaultVO"		type="egovframework.com.cmm.model.ComDefaultVO" />
 	</typeAliases>
     
 </configuration>

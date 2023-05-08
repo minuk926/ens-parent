@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.xit.core.consts.Constants;
 import kr.xit.core.spring.config.auth.AuthentificationInterceptor;
+import kr.xit.core.spring.filter.ReadableRequestWrapperFilter;
 
 /**
  * <pre>
@@ -57,15 +58,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return bean;
     }
 
-    // @Bean
-    // public FilterRegistrationBean readableRequestWrapperFilter() {
-    //     ReadableRequestWrapperFilter readableRequestWrapperFilter = new ReadableRequestWrapperFilter();
-    //
-    //     FilterRegistrationBean bean = new FilterRegistrationBean(readableRequestWrapperFilter);
-    //     bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    //     bean.addUrlPatterns(Constants.API_URL_PATTERNS);
-    //     return bean;
-    // }
+    @Bean
+    public FilterRegistrationBean readableRequestWrapperFilter() {
+        ReadableRequestWrapperFilter readableRequestWrapperFilter = new ReadableRequestWrapperFilter();
+
+        FilterRegistrationBean bean = new FilterRegistrationBean(readableRequestWrapperFilter);
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        bean.addUrlPatterns(Constants.API_URL_PATTERNS);
+        return bean;
+    }
 
     public void addInterceptors(InterceptorRegistry registry) {
     	registry.addInterceptor(new AuthentificationInterceptor())

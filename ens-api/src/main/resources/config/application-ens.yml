@@ -6,13 +6,15 @@ contract:
     pay:
       mydoc:
         host: https://docs-gw.kakaopay.com
+        #host: https://dummy.restapiexample.com
         access-token: cc21fc83ae3d11ecb91e42193199ee3c
         contract-uuid: CON-cc375944ae3d11ecb91e42193199ee3c
         api:
           send: /v1/documents
-          token: /v1/{documentBinderUuid}/tokens/{token}
-          readcompleted: /v1/documents/{documentBinderUuid}
-          status: /v1/documents/{documentBinderUuid}/status
+          #send: /api/v1/employees
+          token: /v1/{document_binder_uuid}/tokens/{token}
+          readcompleted: /v1/documents/{document_binder_uuid}
+          status: /v1/documents/{document_binder_uuid}/status
           bulksend: /v1/documents/bulk
           bulksend-batch-unit: 100
           bulkstatus: /v1/documents/bulk/status
