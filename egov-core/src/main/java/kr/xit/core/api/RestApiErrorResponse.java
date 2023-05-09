@@ -61,8 +61,8 @@ public class RestApiErrorResponse implements IRestApiResponse, Serializable {
     @Schema(example = " ", description = "HttpStatus 상태 코드")
     private final int statusCode;
 
-//    @Schema(example = " ", description = "HttpStatus name")
-//    private final String error;
+    @Schema(example = " ", description = "HttpStatus.BAD_REQUEST", requiredMode = Schema.RequiredMode.AUTO)
+    private HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
     @Schema(description = "코드(에러코드)")
     private final String code;
@@ -70,10 +70,6 @@ public class RestApiErrorResponse implements IRestApiResponse, Serializable {
     @Schema(example = " ", description = "에러 메세지")
     @Setter
     private String message;
-
-//    @Schema(example = " ", description = "HttpStatus")
-//    @Setter
-//    private HttpStatus httpStatus;
 
     public static ResponseEntity<? extends IRestApiResponse> of(final String message) {
         RestApiErrorResponse errorResponse = RestApiErrorResponse.builder()

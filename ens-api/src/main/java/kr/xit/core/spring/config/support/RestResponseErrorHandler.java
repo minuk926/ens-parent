@@ -1,17 +1,29 @@
 package kr.xit.core.spring.config.support;
 
-import kr.xit.core.exception.BizRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import java.io.IOException;
 
+/**
+ * <pre>
+ * description : RestTemplate Error Handler
+ * packageName : kr.xit.core.spring.config.support
+ * fileName    : RestResponseErrorHandler
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ *  @see kr.xit.core.spring.config.RestTemplateConfig#restTemplate
+ */
 @Slf4j
-public class RestTemplateResponseErrorHandler extends DefaultResponseErrorHandler {
+public class RestResponseErrorHandler extends DefaultResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
@@ -31,7 +43,7 @@ public class RestTemplateResponseErrorHandler extends DefaultResponseErrorHandle
                 seriesName = String.valueOf(HttpStatus.NOT_FOUND.value());
             }
         }
-        log.error("========================== RestTemplate Error  ==============================");
+        log.error("========================== RestResponse Error  ==============================");
         log.error("SERIES NAME : {}", seriesName);
         log.error("STATUS CODE : {}", response.getStatusCode());
         log.error("=============================================================================");

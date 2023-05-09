@@ -97,7 +97,7 @@ public class AuthApiController {
 			request.getSession().setAttribute(Constants.AuthSaveSession.LOGIN_VO.getCode(), loginResultVO);
 			return RestApiResponse.of(loginResultVO);
 		}
-		return RestApiResponse.of("300", egovMessageSource.getMessage("fail.common.login"));
+		return RestApiResponse.ofCodeMessage("300", egovMessageSource.getMessage("fail.common.login"));
 	}
 
 	@Operation(summary = "로그인(JWT)" , description = "로그인(JWT)")
@@ -174,7 +174,7 @@ public class AuthApiController {
 		    return RestApiResponse.of(resultMap);
 			
 		}
-		return RestApiResponse.of("300", egovMessageSource.getMessage("fail.common.login") );
+		return RestApiResponse.ofCodeMessage("300", egovMessageSource.getMessage("fail.common.login") );
 	}
 
 	/**

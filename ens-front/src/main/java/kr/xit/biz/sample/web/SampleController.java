@@ -32,7 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "SampleController", description = "예제")
 @RestController
-@RequestMapping(value = "/ens/biz/sample")
+@RequestMapping(value = "/api/sample")
 public class SampleController {
 
     @GetMapping(value = "/hello")

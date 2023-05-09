@@ -27,11 +27,17 @@
     <script th:inline="javascript" type="text/javascript">
         const REAL_API = [
             "http://localhost:8081/api/kakaopay/v1/documents",
+            "http://localhost:8081/api/kakaopay/v1/documents",
             "http://localhost:8081/api/kakaopay/v1/validToken",
+            "http://localhost:8081/api/kakaopay/v1/modifyStatus",
+            "http://localhost:8081/api/kakaopay/v1/findStatus",
         ]
         const TEST_API = [
             "http://localhost:8081/api/kakaopay/test/documents",
+            "http://localhost:8081/api/kakaopay/test/documents",
             "http://localhost:8081/api/kakaopay/test/validToken",
+            "http://localhost:8081/api/kakaopay/test/modifyStatus",
+            "http://localhost:8081/api/kakaopay/test/findStatus",
         ]
 
         let data = [
@@ -58,7 +64,18 @@
             },
             {
                 document_binder_uuid: 'BIN-ff806328863311ebb61432ac599d6150',
+                token: 'CON-cc375944ae3d11ecb91e42193199ee3c',
+                external_document_uuid: "A00001"
+            },
+            {
+                document_binder_uuid: 'BIN-ff806328863311ebb61432ac599d6150',
                 token: 'CON-cc375944ae3d11ecb91e42193199ee3c'
+            },
+            {
+                document_binder_uuid: 'BIN-ff806328863311ebb61432ac599d6150'
+            },
+            {
+                document_binder_uuid: 'BIN-ff806328863311ebb61432ac599d6150'
             },
         ];
 
@@ -83,9 +100,18 @@
                 },
                 success: function (res, textStatus) {
                     console.log( JSON.stringify(res));
-                    //res.success? $("#resData").text(JSON.stringify(res.data)) : alert(res.message);
-                    //res.success? $("#resData").text(JSON.stringify(res.data)) : $("#resData").text(res.message);
-                    res.success? $("#resData").text(JSON.stringify(res.data)) : $("#errData").text(JSON.stringify(res));
+                    if(res.success){
+                        let status = res.httpStatus;
+                        let code = res.code;
+                        let message = res.message;
+                        let count = res.count;
+                        let resData = typeof res.data === 'string'? res.data : JSON.stringify(res.data);
+                        let outData = `success: true\nhttpStatus: ${status}\ncode: ${code}\nmessage: ${message}\ncount: ${count}\ndata: ${resData}`;
+
+                        $("#resData").text(outData)
+                    }else{
+                        $("#errData").text(JSON.stringify(res));
+                    }
                 },
                 error : function(data) {
                     alert("점검필요-error로 return", data.responseText);
@@ -105,14 +131,22 @@
 <div>
     <ul>
         <li><input type="button" value="카카오페이 전자문서요청" onclick="requestSend('post', REAL_API[0], data[0])"></li>
-        <li><input type="button" value="토큰유효성 검증" onclick="requestSend('post', REAL_API[1], data[1])"></li>
-        <li><input type="button" value="[Test]카카오페이 전자문서요청" onclick="requestSend('post', TEST_API[0], data[0])"></li>
-        <li><input type="button" value="[Test]토큰유효성 검증" onclick="requestSend('post', TEST_API[1], data[1])"></li>
+<!--        <li><input type="button" value="카카오페이 전자문서요청" onclick="requestSend('get', REAL_API[1], data[1])"></li>-->
+        <li><input type="button" value="토큰유효성 검증" onclick="requestSend('post', REAL_API[2], data[2])"></li>
+        <li><input type="button" value="문서 상태 변경" onclick="requestSend('post', REAL_API[3], data[3])"></li>
+        <li><input type="button" value="문서 상태 조회" onclick="requestSend('post', REAL_API[4], data[4])"></li>
+        <br/>
+        <li><input type="button" value="[Test] Rest call test" onclick="requestSend('get', 'http://localhost:8081/api/kakaopay/test/dummy', '')"></li>
+        <li><input type="button" value="[Test] 카카오페이 전자문서요청" onclick="requestSend('post', TEST_API[0], data[0])"></li>
+<!--        <li><input type="button" value="[Test] 카카오페이 전자문서요청" onclick="requestSend('get', TEST_API[1], data[1])"></li>-->
+        <li><input type="button" value="[Test] 토큰유효성 검증" onclick="requestSend('post', TEST_API[2], data[2])"></li>
+        <li><input type="button" value="[Test] 문서 상태 변경" onclick="requestSend('post', TEST_API[3], data[3])"></li>
+        <li><input type="button" value="[Test] 문서 상태 조회" onclick="requestSend('post', TEST_API[4], data[4])"></li>
     </ul>
     <p id="loading"><strong>Loading...</strong></p>
-    <div id="divParam">
-        <textarea cols="80" rows="20" id="paramData"></textarea>
-    </div>
+<!--    <div id="divParam">-->
+<!--        <textarea cols="80" rows="20" id="paramData"></textarea>-->
+<!--    </div>-->
     <div id="divData">
         <textarea cols="80" rows="20" id="resData"></textarea>
         <textarea cols="50" rows="20" id="errData"></textarea>

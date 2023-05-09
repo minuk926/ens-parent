@@ -7,7 +7,6 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -15,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 
 /**
  * <pre>
- * description :
+ * description : 카카오페이 전자문서 요청 DTO
  *
  * packageName : kr.xit.ens.support.kakaopay.model
  * fileName    : KakaotalkDTO
@@ -215,10 +214,7 @@ public class KkoPayEltrDocDTO {
     @Data
     @SuperBuilder
     @NoArgsConstructor
-    public static class ValidTokenReq {
-        @Schema(requiredMode = Schema.RequiredMode.REQUIRED, title = "카카오페이 문서식별번호(max:40)", example = "BIN-ff806328863311ebb61432ac599d6150")
-        @Size(min = 1, max = 40, message = "카카오페이 문서식별번호는 필수입니다(max:40자)")
-        private String document_binder_uuid;
+    public static class ValidTokenReq extends DocumentBinderUuid{
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED, title = "카카오페이 전자문서 서버로 부터 받은 토큰(max:50)", example = "CON-cc375944ae3d11ecb91e42193199ee3c")
         @Size(min = 1, max = 50, message = "카카오페이 전자문서 서버 토큰은 필수입니다(max:50자)")
         private String token;
@@ -272,12 +268,14 @@ public class KkoPayEltrDocDTO {
     @NoArgsConstructor
     public static class DocStatusRes {
         /**
+         * <pre>
          * 송신|수신|열람|만료
          * SENT|RECEIVED|READ|EXPIRED
          * SENT - 문서발송요청 성공(실 사용자에게 문서가 도달되지 않은 상태, 알림톡은 수신했으나 페이회원이 아니어서 실 문서 발송이 않됨)
          * RECEIVED - 사용자에 실문서 도달 완료
          * READ - OTT 검증 완료후 문서 상태 변경 API 호출에 성공한 상태
          * EXPIRED - 미열람 문서에 대한 열람 만료 시간이 지난 상태
+         * </pre>
          */
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 20, title = "진행상태(max:20)", example = "USED")
         @Size(min = 1, max = 20, message = "진행상태(max:20)")
@@ -329,70 +327,9 @@ public class KkoPayEltrDocDTO {
     @Data
     @SuperBuilder
     @NoArgsConstructor
-    public static class DocStatusReq {
+    public static class DocumentBinderUuid {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED, title = "카카오페이 문서식별번호(max:40)", example = "BIN-ff806328863311ebb61432ac599d6150")
         @Size(min = 1, max = 40, message = "카카오페이 문서식별번호는 필수입니다(max:40자)")
         private String document_binder_uuid;
     }
-
-
-    // @Schema(name = "KkoAlimtalkAcceptReqDTO")
-    // @SuperBuilder
-    // @Getter
-    // @NoArgsConstructor
-    // @AllArgsConstructor
-    // public static class EnsAcceptReqDTO {
-    //
-    //     @Length(max = 30, message = "중개사업자의 최대 길이를 초과 했습니다.")
-    //     @Schema(required = false, title = "중개사업자", example = "dozn")
-    //     private String vender;
-    //
-    //     @Length(max = 20, message = "기관코드의 최대 길이를 초과 했습니다.")
-    //     @NotEmpty(message = "기관코드는 필수 입력값 입니다.")
-    //     @Schema(required = true, title = "기관코드", example = "EX_ORG001")
-    //     private String org_cd;
-    //
-    //     @Length(max = 30, message = "템플릿코드의 최대 길이를 초과 했습니다.")
-    //     @NotEmpty(message = "템플릿코드는 필수 입력값 입니다.")
-    //     @Schema(required = false, title = "템플릿코드", example = "EX_TMPLT001")
-    //     private String tmplt_cd;
-    //
-    //     @Schema(required = false, title = "제목", example = " ")
-    //     private String post_bundle_title;
-    //
-    //     @NotEmpty(message = "전송일시는 필수 입력값 입니다")
-    //     @Schema(required = true, title = "접수일시(yyyyMMddHHmmss)", example = "20220317192730")
-    //     private String send_dt;
-    //
-    //     @NotEmpty(message = "마감일시는 필수 입력값 입니다")
-    //     @Schema(required = true, title = "마감일시(yyyyMMddHHmmss)", example = "20220317235959")
-    //     private String close_dt;
-    //
-    //     //    @Valid
-    //     //    @NotEmpty(message = "문서목록은 필수 입력값 입니다")
-    //     //    private List<T> documents;
-    //
-    // }
-    //
-    // @SuperBuilder
-    // @Getter
-    // @NoArgsConstructor
-    // @AllArgsConstructor
-    // public static class EnsRsltRespDTO {
-    //     //@Schema(required = true, title = "상태정보", example = " ")
-    //     //@Enumerated(EnumType.STRING)
-    //     //private StatCd statCd;
-    //     @Schema(required = true, title = "기관코드", example = "EX_ORG001")
-    //     private String orgCd;
-    //     @Schema(required = false, title = "템플릿코드", example = "EX_TMPLT001")
-    //     private String tmpltCd;
-    //     @Schema(required = false, title = "제목", example = " ")
-    //     private String postBundleTitle;
-    //     @Schema(required = true, title = "접수일시(yyyyMMddHHmmss)", example = "20220317192730")
-    //     private String sendDt;
-    //     @Schema(required = true, title = "마감일시(yyyyMMddHHmmss)", example = "20220317235959")
-    //     private String closeDt;
-    //     @Schema(required = true, title = "마감여부", example = "false")
-    //     private Boolean closeAt;
-    // }
 }

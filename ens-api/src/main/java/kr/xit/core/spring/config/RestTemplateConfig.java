@@ -1,8 +1,8 @@
 package kr.xit.core.spring.config;
 
 import kr.xit.core.consts.Constants;
-import kr.xit.core.spring.config.support.RestTemplateLoggingInterceptor;
-import kr.xit.core.spring.config.support.RestTemplateResponseErrorHandler;
+import kr.xit.core.spring.config.support.RestLoggingInterceptor;
+import kr.xit.core.spring.config.support.RestResponseErrorHandler;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -11,10 +11,11 @@ import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.client.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.retry.policy.SimpleRetryPolicy;
@@ -27,9 +28,29 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
+import java.util.Collections;
 
+/**
+ * <pre>
+ * description : RestTemplate 설정
+ * packageName : kr.xit.core.spring.config
+ * fileName    : RestTemplateConfig
+ * author      : julim
+ * date        : 2023-04-28
+ * ======================================================================
+ * 변경일         변경자        변경 내용
+ * ----------------------------------------------------------------------
+ * 2023-04-28    julim       최초 생성
+ *
+ * </pre>
+ *  @see RestLoggingInterceptor
+ *  @see RestResponseErrorHandler
+ */
 @Configuration
 public class RestTemplateConfig {
+
+    @Value("${spring.profiles.active:local}")
+    private String activeProfile;
 
     @Bean
     public HttpClient httpClient() {
@@ -43,40 +64,89 @@ public class RestTemplateConfig {
         return HttpClientBuilder
                 .create()
                 .setDefaultRequestConfig(config)
-                .setMaxConnTotal(100)    //최대 오픈되는 커넥션 수, 연결을 유지할 최대 숫자
-                .setMaxConnPerRoute(30)   //IP, 포트 1쌍에 대해 수행할 커넥션 수, 특정 경로당 최대 숫자
+                .setMaxConnTotal(10)    //최대 오픈되는 커넥션 수, 연결을 유지할 최대 숫자
+                .setMaxConnPerRoute(10)   //IP, 포트 1쌍에 대해 수행할 커넥션 수, 특정 경로당 최대 숫자
                 .build();
     }
 
-    @Profile({"!local"})
+    /**
+     * 로컬에서는 인증서 by pass
+     * @return
+     */
     @Bean(name = "factory")
-    public HttpComponentsClientHttpRequestFactory factory() {
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+    public ClientHttpRequestFactory factory()  {
+        try{
+            if(!"local".equals(activeProfile)) {
+                TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
-        factory.setConnectTimeout(Constants.CONNECT_TIMEOUT);
-        factory.setConnectionRequestTimeout(Constants.CONNECT_TIMEOUT);
-        factory.setReadTimeout(Constants.READ_TIMEOUT);
-        factory.setHttpClient(httpClient());
-        return factory;
+                SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
+                    .loadTrustMaterial(null, acceptingTrustStrategy)
+                    .build();
+
+                SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+                CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
+
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+                requestFactory.setHttpClient(httpClient);
+                requestFactory.setConnectTimeout(Constants.CONNECT_TIMEOUT);
+                requestFactory.setConnectionRequestTimeout(Constants.CONNECT_TIMEOUT);
+                requestFactory.setReadTimeout(Constants.READ_TIMEOUT);
+
+                return requestFactory;
+            }else{
+                HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+
+                factory.setConnectTimeout(Constants.CONNECT_TIMEOUT);
+                factory.setConnectionRequestTimeout(Constants.CONNECT_TIMEOUT);
+                factory.setReadTimeout(Constants.READ_TIMEOUT);
+                factory.setHttpClient(httpClient());
+                return factory;
+            }
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+            //throw BizRuntimeException.create(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
+    /**
+     * BufferingClientHttpRequestFactory 를 사용하여 logging 처리시 setBufferRequestBody(true) : default
+     * setBufferRequestBody(false) 권장
+     * @param factory
+     * @return
+     */
     @Bean
-    public RestTemplate restTemplate(HttpComponentsClientHttpRequestFactory factory) {
-        return new RestTemplateBuilder()
-            // 로깅 인터셉터에서 Stream을 소비하므로 BufferingClientHttpRequestFactory 을 꼭 써야한다.
-            //.requestFactory(() -> new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))
-            .requestFactory(() -> factory)
-            .setReadTimeout(Duration.ofMillis(Constants.READ_TIMEOUT))
-            .setConnectTimeout(Duration.ofMillis(Constants.CONNECT_TIMEOUT))
-            // UTF-8 인코딩으로 메시지 컨버터 추가
-            .messageConverters(new StringHttpMessageConverter(Constants.CHARSET_UTF8))
-            // retry / logging 인터셉터 설정
-            .interceptors(new RestTemplateLoggingInterceptor())
-            //.interceptors(clientHttpRetryInterceptor(), new RestTemplateLoggingRequestInterceptor())
-            // 에러 핸들러
-            .errorHandler(new RestTemplateResponseErrorHandler())
-            //.customizers(restTemplate -> restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory())))
+    @DependsOn(value = {"factory"})
+    public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
+        RestTemplate restTemplate = null;
+
+        // FIXME::운영계 에서는 로깅 미사용
+        if("prod".equals(activeProfile)){
+            restTemplate = new RestTemplateBuilder()
+                .requestFactory(() -> factory)
+                // To avoid running out of memory
+                .setBufferRequestBody(false)
+                .setReadTimeout(Duration.ofMillis(Constants.READ_TIMEOUT))
+                .setConnectTimeout(Duration.ofMillis(Constants.CONNECT_TIMEOUT))
             .build();
+
+        }else{
+            restTemplate = new RestTemplateBuilder()
+                .requestFactory(() -> new BufferingClientHttpRequestFactory(factory))
+                // retry / logging 인터셉터 설정
+                .interceptors(new RestLoggingInterceptor())
+                //.interceptors(clientHttpRetryInterceptor(), new RestTemplateLoggingRequestInterceptor())
+                // To avoid running out of memory
+                .setBufferRequestBody(true)
+                .setReadTimeout(Duration.ofMillis(Constants.READ_TIMEOUT))
+                .setConnectTimeout(Duration.ofMillis(Constants.CONNECT_TIMEOUT))
+                .build();
+        }
+        // UTF-8 인코딩으로 메시지 컨버터 추가
+        restTemplate.setMessageConverters(Collections.singletonList(new StringHttpMessageConverter(Constants.CHARSET_UTF8)));
+        // 에러 핸들러
+        restTemplate.setErrorHandler(new RestResponseErrorHandler());
+        return restTemplate;
     }
 
     private ClientHttpRequestInterceptor clientHttpRetryInterceptor() {
@@ -89,33 +159,5 @@ public class RestTemplateConfig {
                 throw new RuntimeException(throwable);
             }
         };
-    }
-
-    /**
-     * 인증서 무시
-     * @return
-     */
-    @Profile({"local"})
-    @Bean(name = "factory")
-    public HttpComponentsClientHttpRequestFactory factoryLocal()  {
-        try{
-            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
-
-            SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
-
-            SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
-            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
-
-            HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-            requestFactory.setHttpClient(httpClient);
-            requestFactory.setConnectTimeout(Constants.CONNECT_TIMEOUT);
-            requestFactory.setReadTimeout(Constants.READ_TIMEOUT);
-
-            return requestFactory;
-        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
-            //throw BizRuntimeException.create(e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
     }
 }

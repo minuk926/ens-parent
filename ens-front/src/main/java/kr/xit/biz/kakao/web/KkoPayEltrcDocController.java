@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "KkoPayEltrcDocController", description = "카카오페이 전자문서 발송 요청")
 @RestController
-@RequestMapping(value = "/api/v1/kakaopay")
+@RequestMapping(value = "/api/kakaopay/test")
 public class KkoPayEltrcDocController {
 
     @GetMapping

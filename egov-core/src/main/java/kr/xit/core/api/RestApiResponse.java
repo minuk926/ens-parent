@@ -6,10 +6,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.GsonBuilder;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,6 +46,9 @@ public class RestApiResponse<T> implements IRestApiResponse, Serializable {
     @Schema(example = "true", description = "에러인 경우 false", requiredMode = Schema.RequiredMode.REQUIRED)
     private boolean success = true;
     private String code = String.valueOf(ResponseCode.SUCCESS.getCode());
+
+    @Schema(example = " ", description = "HttpStatus.OK", requiredMode = Schema.RequiredMode.AUTO)
+    private HttpStatus httpStatus = HttpStatus.OK;
 
     @Schema(description = "오류 발생시 오류 메세지", example = " ", requiredMode = Schema.RequiredMode.REQUIRED)
     private String message = ResponseCode.SUCCESS.getMessage();
@@ -81,32 +86,23 @@ public class RestApiResponse<T> implements IRestApiResponse, Serializable {
     }
 
     public static <T> ResponseEntity<? extends IRestApiResponse> of(T data){
-        return of(data, null, null);
+        return of(data, null, null, null);
     }
 
-    public static <T> ResponseEntity<? extends IRestApiResponse> of(T data, String code){
-        return of(data, code, getResponseCode(code).getMessage());
+    public static <T> ResponseEntity<? extends IRestApiResponse> of(T data, HttpStatus httpStatus){
+        return of(data, null, null, httpStatus);
     }
 
-    // public static <T> ResponseEntity<? extends IRestApiResponse> of(String code){
-    //     return of(null, code, getResponseCode(code).getMessage());
-    // }
-
-    public static <T> ResponseEntity<? extends IRestApiResponse> of(String code, String message){
-        return of(null, code, message);
+    public static <T> ResponseEntity<? extends IRestApiResponse> ofCodeMessage(String code, String message){
+        return of(null, code, message, null);
     }
 
-    public static <T> ResponseEntity<? extends IRestApiResponse> of(T data, String code, String message){
+    public static <T> ResponseEntity<? extends IRestApiResponse> of(T data, String code, String message, HttpStatus httpStatus){
         RestApiResponse result = new RestApiResponse(data);
         if(Checks.isNotEmpty(code))     result.setCode(code);
         if(Checks.isNotEmpty(message))  result.setMessage(message);
+        if(Checks.isNotEmpty(httpStatus))  result.setHttpStatus(httpStatus);
         return ResponseEntity.ok().body(result);
-    }
-
-    public static <T> ResponseEntity<? extends IRestApiResponse> of(String name, T data){
-        Map<String, T> map = new HashMap<>();
-        map.put(name, data);
-        return ResponseEntity.ok().body(new RestApiResponse<>(map));
     }
 
     public static <T> ResponseEntity<? extends IRestApiResponse> of(HttpStatus httpStatus){

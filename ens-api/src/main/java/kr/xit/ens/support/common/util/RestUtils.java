@@ -7,7 +7,11 @@ import kr.xit.core.consts.Constants;
 import kr.xit.ens.support.common.KakaoConstants;
 import kr.xit.ens.support.kakao.model.KkoPayEltrDocDTO;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
@@ -16,11 +20,10 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Objects;
 
 /**
  * <pre>
- * description :
+ * description : Restful call Utility class
  * packageName : kr.xit.core.support.utils
  * fileName    : RestUtils
  * author      : minuk
@@ -50,10 +53,10 @@ public class RestUtils {
      * @param headers
      * @param body
      * @param url
-     * @param clz
+     * @param resType
      * @return
      */
-    public static ResponseEntity<? extends IRestApiResponse> callRestApi(RestTemplate restTemplate, HttpMethod method, HttpHeaders headers, String body, String url, Class clz) {
+    public static <T> ResponseEntity<? extends IRestApiResponse> callRestApi(RestTemplate restTemplate, HttpMethod method, HttpHeaders headers, String body, String url, ParameterizedTypeReference<T> resType) {
         String errCode = "";
         String errMsg = "";
 
@@ -78,7 +81,10 @@ public class RestUtils {
                 default:
                     break;
             }
-            return RestApiResponse.of(restTemplate.exchange(URI.create(uri.toString()), method, entity, clz));
+
+            ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(uri.toString()), method, entity, resType);
+            return RestApiResponse.of(responseEntity.getBody(), responseEntity.getStatusCode());
+            //return RestApiResponse.of(restTemplate.exchange(URI.create(uri.toString()), method, entity, clz));
             //restTemplate.exchange(URI.create(uri.toString()), method, entity, clz);
 
         // 4xx error
@@ -107,7 +113,7 @@ public class RestUtils {
         return RestApiErrorResponse.of(errCode, errMsg);
     }
 
-    public static ResponseEntity<? extends IRestApiResponse> callTestRestApi(RestTemplate restTemplate, HttpMethod method, HttpHeaders headers, String body, String url, Class clz) {
+    public static <T> ResponseEntity<? extends IRestApiResponse> callTestRestApi(RestTemplate restTemplate, HttpMethod method, HttpHeaders headers, String body, String url, ParameterizedTypeReference<T> resType) {
         String errCode = "";
         String errMsg = "";
 
@@ -140,6 +146,8 @@ public class RestUtils {
                 .append("\n  body => " + entity.getBody())
                 .append("\n=========================================================================");
             log.info(sb.toString());
+            ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(uri.toString()), method, entity, resType);
+            return RestApiResponse.of(responseEntity.getBody(), responseEntity.getStatusCode());
             //return RestApiResponse.of();
 
             // FIXME : 결과 SET
@@ -149,11 +157,12 @@ public class RestUtils {
 
             // FIXME : 결과 SET
             // Object 타입
-            return RestApiResponse.of(KkoPayEltrDocDTO.ValidTokenRes.builder()
-                .token_status("USED")
-                .token_expires_at(1624344762)
-                .token_used_at(1624344762)
-                .build());
+            // return RestApiResponse.of(KkoPayEltrDocDTO.ValidTokenRes.builder()
+            //     .token_status("USED")
+            //     .token_expires_at(1624344762)
+            //     .token_used_at(1624344762)
+            //     .build(),
+            //     HttpStatus.OK);
 
         } catch (Exception e){
             errCode = String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -164,4 +173,24 @@ public class RestUtils {
         }
 
     }
+
+    // 파일전송
+    /*
+    MultipartBodyBuilder builder = new MultipartBodyBuilder();
+    builder.part("id", "dailycode");
+    builder.part("thumbNailFile", new FileSystemResource("c:/study/thumbnail.png"));
+
+        // 만약 상세하게 part 의 header 를 작성하고 싶다면 아래처럼...
+    builder.part("uploadfile", new ByteArrayResource(fileContent))
+            .header("Content-Disposition",
+            "form-data; name=uploadfile; filename=daily.jpg");
+
+        // 최종적으로 build 호출하여 전송할 PayLoad 생성
+        MultiValueMap<String, HttpEntity<?>> payLoad = builder.build();
+
+        // RestTemplate 을 통해서 최종적으로 전송하면 된다.
+        // body 내용이 딱히 없으므로 Void.class 타입으로 반환
+    template.postForObject("http://me.dailycode/upload", payLoad, Void.class);
+
+     */
 }

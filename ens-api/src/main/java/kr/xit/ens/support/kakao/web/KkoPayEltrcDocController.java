@@ -35,6 +35,14 @@ public class KkoPayEltrcDocController {
     private final IKkoPayEltrcDocService kkoPayEltrcDocService;
     private final EstlRequestValidator estlRequestValidator;
 
+    /**
+     * <pre>
+     * 모바일웹 연계 문서발송 요청
+     * -.이용기관 서버에서 전자문서 서버로 문서발송 처리를 요청합니다.
+     * </pre>
+     * @param reqDTO
+     * @return ResponseEntity
+     */
     @Operation(summary = "문서발송 요청", description = "카카오페이 전자문서 서버로 문서발송 처리를 요청")
     @PostMapping(value = "/documents", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<? extends IRestApiResponse> requestSend(
@@ -72,14 +80,13 @@ public class KkoPayEltrcDocController {
         return RestApiResponse.of();
     }
 
-    @Operation(summary = "One Time Token 전송", description = "Redirect URL 접속 시도")
-    @PostMapping(value = "/documents2", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<? extends IRestApiResponse> oneTimeTokenSend2(
-            @Validated @RequestBody final KkoPayEltrDocDTO.EstlRequest reqDTO
-    ) {
-        return RestApiResponse.of();
-    }
-
+    /**
+     * <pre>
+     * 토큰 유효성 검증(Redirect URL  접속 허용/불허)
+     * </pre>
+     * @param reqDTO KkoPayEltrDocDTO.RequestSendReq
+     * @return ResponseEntity
+     */
     @Operation(summary = "토큰 유효성 검증", description = "Redirect URL 접속 허용/불허")
     @PostMapping(value = "/validToken", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<? extends IRestApiResponse> validToken(
@@ -89,152 +96,41 @@ public class KkoPayEltrcDocController {
     }
 
     /**
-     * 문서에 대한 열람 상태 변경
-     * 사용자가 문서 열람시(토큰유효성 검증 완료후 페이지 로딩 완료 시점) 반드시 호출
-     * 미호출시
-     *  - 유통증명시스템 사용시 : 해당 API 호출 시점으로 열람 정보가 등록되어 열람정보 등록 불가
-     *  - 문서상태 조회 API 호출시 최초열람시간(read_at) 수신 불가
-     *
-     * 정상 응답 : body없이 204 status return
-     * @param document_binder_uuid
-     * @return
+     * <pre>
+     * 문서 상태 변경 API
+     * -.문서에 대해서 열람 상태로 변경. 사용자가 문서열람 시(OTT 검증 완료 후 페이지 로딩 완료 시점) 반드시 문서 열람 상태 변경 API를 호출해야 함.
+     * -.미 호출 시 아래와 같은 문제 발생
+     * 1)유통증명시스템을 사용하는 경우 해당 API를 호출한 시점으로 열람정보가 등록되어 미 호출 시 열람정보가 등록 되지 않음.
+     * 2)문서상태조회 API(/v1/documents/{document_binder_uuid}/status) 호출 시 read_at최초 열람시간) 데이터가 내려가지 않음.
+     * </pre>
+     * @param reqDTO KkoPayEltrDocDTO.DocumentBinderUuid
+     * @return ResponseEntity
      */
     @Operation(summary = "문서 상태 변경", description = "문서 상태 변경")
     @PostMapping(value = "/modifyStatus", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<? extends IRestApiResponse> modifyStatus(
-        @Validated @RequestBody final KkoPayEltrDocDTO.DocStatusReq reqDTO
+        @Validated @RequestBody final KkoPayEltrDocDTO.DocumentBinderUuid reqDTO
     ) {
-        return kkoPayEltrcDocService.modifyStatus(reqDTO.getDocument_binder_uuid());
+        return kkoPayEltrcDocService.modifyStatus(reqDTO);
     }
 
     /**
+     * <pre>
      * 문서 상태 조회 API
      * -.이용기관 서버에서 카카오페이 전자문서 서버로 문서 상태에 대한 조회를 요청 합니다.
      * : 발송된 문서의 진행상태를 알고 싶은 경우, flow와 상관없이 요청 가능
      * : polling 방식으로 호출할 경우, 호출 간격은 5초를 권장.
      * -.doc_box_status 상태변경순서
      * : SENT(송신) > RECEIVED(수신) > READ(열람)/EXPIRED(미열람자료의 기한만료)
+     * </pre>
+     * @param reqDTO KkoPayEltrDocDTO.DocumentBinderUuid
+     * @return ResponseEntity
      */
     @Operation(summary = "문서 상태 조회", description = "문서 상태 조회")
     @PostMapping(value = "/findStatus", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<? extends IRestApiResponse> findStatus(
-        @Validated @RequestBody final KkoPayEltrDocDTO.DocStatusReq reqDTO
+        @Validated @RequestBody final KkoPayEltrDocDTO.DocumentBinderUuid reqDTO
     ) {
-        return kkoPayEltrcDocService.findStatus(reqDTO.getDocument_binder_uuid());
+        return kkoPayEltrcDocService.findStatus(reqDTO);
     }
-
-
-
-
-
-
-
-
-
-
-
-//     @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, content = {
-//             @Content(mediaType = "application/json", examples = {
-//                     @ExampleObject(name = "Sample Example..."
-//                             , summary = "제작"
-//                             , value = "{\"sendMastId\": 1}")
-//             })
-//     })
-//     @Operation(summary = "제작")
-// //    @PutMapping(value = "/kko/alimtalk/make", produces = MediaType.APPLICATION_JSON_VALUE)
-//     @PostMapping(value = "/kko/alimtalk/make", produces = MediaType.APPLICATION_JSON_VALUE)
-//     public ResponseEntity<EnsResponseVO> make(@RequestBody Map<String, Long> mParam) {
-//
-//         EnsResponseVO responseVO = kkoAlimtalkService.make(mParam.get("sendMastId"));
-//
-//         return new ResponseEntity<EnsResponseVO>(responseVO, HttpStatus.OK);
-//     }
-//
-//     @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, content = {
-//             @Content(mediaType = "application/json", examples = {
-//                     @ExampleObject(name = "Sample Example..."
-//                             , summary = "제작(청구서링크)"
-//                             , value = "{\"sendMastId\": 1}")
-//             })
-//     })
-//     @Operation(summary = "제작(템플릿메시지)")
-// //    @PutMapping(value = "/kko/alimtalk/make/tmpltmsg", produces = MediaType.APPLICATION_JSON_VALUE)
-//     @PostMapping(value = "/kko/alimtalk/make/tmpltmsg", produces = MediaType.APPLICATION_JSON_VALUE)
-//     public ResponseEntity<EnsResponseVO> makeTmpltMsg(@RequestBody Map<String, Long> mParam) {
-//
-//         EnsResponseVO responseVO = kkoAlimtalkService.makeTmpltMsg(mParam.get("sendMastId"));
-//
-//         return new ResponseEntity<EnsResponseVO>(responseVO, HttpStatus.OK);
-//     }
-//
-//
-//     @Operation(summary = "제작(일괄)")
-// //    @PutMapping(value = "/kko/alimtalk/make/all", produces = MediaType.APPLICATION_JSON_VALUE)
-//     @PostMapping(value = "/kko/alimtalk/make/all", produces = MediaType.APPLICATION_JSON_VALUE)
-//     public ResponseEntity<EnsResponseVO> makeAll() {
-//
-//         EnsResponseVO responseVO = kkoAlimtalkService.makeAll();
-//
-//         return new ResponseEntity<EnsResponseVO>(responseVO, HttpStatus.OK);
-//     }
-//
-//
-//     @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, content = {
-//             @Content(mediaType = "application/json", examples = {
-//                     @ExampleObject(name = "Sample Example..."
-//                             , summary = "(대량)전송요청"
-//                             , value = "{\"sendMastId\": 1}")
-//             })
-//     })
-//     @Operation(summary = "(대량)전송요청")
-//     @PostMapping(value = "/kko/alimtalk/send/bulk", produces = MediaType.APPLICATION_JSON_VALUE)
-//     public ResponseEntity<EnsResponseVO> sendBulk(@RequestBody Map<String, Long> mParam) {
-//         EnsResponseVO responseVO = kkoAlimtalkService.sendBulk(mParam.get("sendMastId"));
-//
-//         return new ResponseEntity<EnsResponseVO>(responseVO, HttpStatus.OK);
-//     }
-//
-//     @Operation(summary = "(대량)전송요청 일괄")
-//     @PostMapping(value = "/kko/alimtalk/send/bulk/all", produces = MediaType.APPLICATION_JSON_VALUE)
-//     public ResponseEntity<EnsResponseVO> sendBulkAll() {
-//         EnsResponseVO responseVO = kkoAlimtalkService.sendBulkAll();
-//
-//         return new ResponseEntity<EnsResponseVO>(responseVO, HttpStatus.OK);
-//     }
-//
-//
-//     @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, content = {
-//             @Content(mediaType = "application/json", examples = {
-//                     @ExampleObject(name = "Sample Example..."
-//                             , summary = "(대량)문서상태 갱신"
-//                             , value = "{\"sendMastId\": 1, \"btToken\": \"eyJhbGciOiJIUzI1NiJ9.eyJic2lkIjoia290aSIsImV4cCI6MTY0NDQwMjI3MywiaWF0IjoxNjQ0MzE1ODczLCJpcEFkZHIiOiIyMTEuMTE5LjEyNC40MiJ9.7gAQF0FJrVAsRg2umAULa4R7UZFCjnk49Vyo02mYYlU\"}")
-//             })
-//     })
-//     @Operation(summary = "(대량)문서상태 갱신")
-// //    @PutMapping(value = "/kko/alimtalk/stat/bulk", produces = MediaType.APPLICATION_JSON_VALUE)
-//     @PostMapping(value = "/kko/alimtalk/stat/bulk", produces = MediaType.APPLICATION_JSON_VALUE)
-//     public ResponseEntity<EnsResponseVO> statBulk(@RequestBody Map<String, Object> mParam) {
-//
-//         EnsResponseVO responseVO = kkoAlimtalkService.statBulk((String) mParam.get("btToken"), Long.valueOf((Integer) mParam.get("sendMastId")));
-//
-//         return new ResponseEntity<EnsResponseVO>(responseVO, HttpStatus.OK);
-//     }
-//
-//
-//     @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, content = {
-//             @Content(mediaType = "application/json", examples = {
-//                     @ExampleObject(name = "Sample Example..."
-//                             , summary = "전송결과 가져오기"
-//                             , value = "{\"sendMastId\": 1}")
-//             })
-//     })
-//     @Operation(summary = "전송결과 가져오기")
-//     @PostMapping(value = "/kko/alimtalk/send/result/provide", produces = MediaType.APPLICATION_JSON_VALUE)
-//     public ResponseEntity<EnsResponseVO> sendResultProvide(@RequestBody Map<String, Long> mParam) {
-//
-//         EnsResponseVO responseVO = kkoAlimtalkService.sendResultProvide(mParam.get("sendMastId"));
-//
-//
-//         return new ResponseEntity<EnsResponseVO>(responseVO, HttpStatus.OK);
-//     }
 }

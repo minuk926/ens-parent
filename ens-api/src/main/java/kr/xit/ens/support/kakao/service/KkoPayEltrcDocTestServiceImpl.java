@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -23,14 +24,21 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 /**
  * <pre>
- * description : 카카오 페이 전자 문서 발송 요청 서비스
+ * description : 카카오 페이 전자 문서 발송 요청 서비스 테스트
  * packageName : kr.xit.ens.support.kakao.service
- * fileName    : KkoPayEltrcDocServiceImpl
+ * fileName    : KkoPayEltrcDocTestServiceImpl
  * author      : julim
  * date        : 2023-04-28
  * ======================================================================
@@ -67,15 +75,24 @@ public class KkoPayEltrcDocTestServiceImpl extends EgovAbstractServiceImpl imple
     private final RestTemplate restTemplate;
 
 
+    @Override
+    public ResponseEntity<? extends IRestApiResponse> dummy() {
+        HttpHeaders headers = RestUtils.setHeaders(accessToken, contractUuid);
+        StringBuilder url = new StringBuilder()
+            .append("https://dummy.restapiexample.com")
+            .append("/api/v1/employees");
+
+        return RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), new ParameterizedTypeReference<String>() {});
+    }
+
 
     /**
+     * <pre>
      * 모바일웹 연계 문서발송 요청
      * -.이용기관 서버에서 전자문서 서버로 문서발송 처리를 요청합니다.
-     */
-    /**
-     *
-     * @param reqDTO KkoPayEltrDocDTO.RequestSendReq
-     * @return
+     * </pre>
+     * @param reqDTO
+     * @return ResponseEntity
      */
     @Override
     public ResponseEntity<? extends IRestApiResponse> requestSend(final KkoPayEltrDocDTO.RequestSendReq reqDTO) {
@@ -100,26 +117,40 @@ public class KkoPayEltrcDocTestServiceImpl extends EgovAbstractServiceImpl imple
 
         }
 
-        HttpHeaders headers = RestUtils.setHeaders(accessToken, contractUuid);
-        StringBuilder url = new StringBuilder()
-            .append(HOST)
-            .append(API_SEND);
+        // FIXME : 결과 SET
+        // String 타입
+        //ResponseEntity<?> entity = RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, JsonUtils.toJson(reqDTO), url.toString(), String.class);
+        //RestApiResponse res = JsonUtils.toObjByObj(entity.getBody(), RestApiResponse.class);
+        //json String -> Object
+        //KkoPayEltrDocDTO.ValidTokenRes dto = JsonUtils.toObject(res.getData().toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
 
-        RestUtils.callTestRestApi(restTemplate, HttpMethod.POST, headers, JsonUtils.toJson(reqDTO), url.toString(), String.class);
+        // FIXME : 결과 SET
+        // Object 타입
+        //ResponseEntity<? extends IRestApiResponse> entity = RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, JsonUtils.toJson(reqDTO), url.toString(), new ParameterizedTypeReference<KkoPayEltrDocDTO.DocumentBinderUuid>(){});
+        //RestApiResponse res = JsonUtils.toObjByObj(entity.getBody(), RestApiResponse.class);
+        // data -> Object
+        //KkoPayEltrDocDTO.ValidTokenRes dto = (KkoPayEltrDocDTO.DocumentBinderUuid)res.getData();
 
         // FIXME : 성공
-        Map<String,Object> map = new HashMap<>();
-        map.put("document_binder_uuid", "BIN-ff806328863311ebb61432ac599d6150");
-        return RestApiResponse.of(map);
+        // ObjectNode jsonNodes = JsonNodeFactory.instance.objectNode();
+        // jsonNodes.put("document_binder_uuid", "BIN-ff806328863311ebb61432ac599d6150");
+        // return RestApiResponse.of(jsonNodes);
 
         // FIXME : 에러
-//        return ResponseEntity
-//            .status(HttpStatus.BAD_REQUEST)
-//            .body(getErrorResponse(KkoReponseCode.ErrorCode.UNIDENTIFIED_USER));
+        return ResponseEntity
+            .ok()
+            .body(getErrorResponse(KkoReponseCode.ErrorCode.UNIDENTIFIED_USER));
 
 
     }
 
+    /**
+     * <pre>
+     * 토큰 유효성 검증(Redirect URL  접속 허용/불허)
+     * </pre>
+     * @param reqDTO KkoPayEltrDocDTO.RequestSendReq
+     * @return ResponseEntity
+     */
     @Override
     public ResponseEntity<? extends IRestApiResponse> validToken(final KkoPayEltrDocDTO.ValidTokenReq reqDTO) {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -134,30 +165,12 @@ public class KkoPayEltrcDocTestServiceImpl extends EgovAbstractServiceImpl imple
             return RestApiErrorResponse.of(errors.toString());
         }
 
-        HttpHeaders headers = RestUtils.setHeaders(accessToken, contractUuid);
-        StringBuilder url = new StringBuilder()
-            .append(HOST)
-            .append(
-                API_TOKEN.replace("{document_binder_uuid}", reqDTO.getDocument_binder_uuid())
-                    .replace("{token}", reqDTO.getToken())
-            );
-
-        // FIXME : 결과 SET
-        // String 타입
-        //ResponseEntity<?> entity = RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), String.class);
-        //RestApiResponse res = JsonUtils.toObjByObj(entity.getBody(), RestApiResponse.class);
-        //json String -> Object
-        //KkoPayEltrDocDTO.ValidTokenRes dto = JsonUtils.toObject(res.getData().toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
-
-        // FIXME : 결과 SET
-        // Object 타입
-        ResponseEntity<? extends IRestApiResponse> entity = RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
-        //RestApiResponse res = JsonUtils.toObjByObj(entity.getBody(), RestApiResponse.class);
-        // data -> Object
-        //KkoPayEltrDocDTO.ValidTokenRes dto = (KkoPayEltrDocDTO.ValidTokenRes)res.getData();
-
-        //return RestUtils.callTestRestApi(restTemplate, HttpMethod.GET, headers, null, url.toString(), KkoPayEltrDocDTO.ValidTokenRes.class);
-        return entity;
+        return RestApiResponse.of(KkoPayEltrDocDTO.ValidTokenRes
+            .builder()
+            .token_status("USED")
+            .token_expires_at(1624344762)
+            .payload("payload 파라미터 입니다.")
+            .build());
     }
 
     private static RestApiErrorResponse getErrorResponse(final KkoReponseCode.ErrorCode errorCode) {
@@ -169,7 +182,6 @@ public class KkoPayEltrcDocTestServiceImpl extends EgovAbstractServiceImpl imple
                 .message(errorCode.getMessage())
                 .build();
     }
-
 
 //     /**
 //      * 문서 상태 변경 API

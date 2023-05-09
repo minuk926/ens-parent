@@ -115,20 +115,6 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         ex.getBindingResult().getFieldErrors()
                 .forEach(e -> validErrorMap.put(e.getField(), e.getDefaultMessage()));
         return RestApiErrorResponse.getResponseEntity(validErrorMap.toString());
-        /*
-        Optional<String> firstKey = validErrorMap
-                .keySet()
-                .stream()
-                .findFirst();
-
-
-        Optional<String> firstMessage = validErrorMap
-                .values()
-                .stream()
-                .findFirst();
-
-        String errMsg = "["+firstKey.orElse("에러 메세지가 정의 되지 않았습니다")+"] "+firstMessage.orElse("");
-        */
     }
 
     /**

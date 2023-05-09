@@ -23,21 +23,11 @@ import org.springframework.context.annotation.Configuration;
 public class SpringDocsFrontConfig {
 
     @Bean
-    public GroupedOpenApi authentification() {
-        return GroupedOpenApi.builder()
-            .group("1. Authentification API")
-            .pathsToMatch(
-                "/api/v1/auth/**"
-            )
-            .build();
-    }
-
-    @Bean
     public GroupedOpenApi kakaopay() {
         return GroupedOpenApi.builder()
-            .group("2. Kakaopay 전자문서 발송 요청 API")
+            .group("1. Kakaopay 전자문서 발송 요청 API")
             .pathsToMatch(
-                "/api/v1/**"
+                "/api/kakaopay/**"
             )
             .build();
     }
@@ -47,7 +37,7 @@ public class SpringDocsFrontConfig {
         return GroupedOpenApi.builder()
             .group("9. Sample Api")
             .pathsToMatch(
-                "/ens/biz/sample/**"
+                "/api/sample/**"
             )
             .build();
     }
